@@ -89,6 +89,23 @@ class _SignInState extends State<SignIn> {
                               passwordInput: _showPassword,
                               controller: _passWordController,
                               hintText: "Password",
+                              suffix: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                     _showPassword = !_showPassword;
+                                    });
+                                  },
+                                  child: Container(
+                                    width: 20.0,
+                                    child: Image.asset(
+                                      _showPassword
+                                          ? "assets/icons/show_pass.png"
+                                          : "assets/icons/hide_pass.png",
+                                      width: 12.0,
+                                      height: 12.0,
+                                    ),
+                                  ),
+                                )
                             ),
                             const SizedBox(
                               height: 10.0,
@@ -142,10 +159,7 @@ class _SignInState extends State<SignIn> {
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 8.0,
-                            ),
-                            const LoginWithGoogle(),
+                           
                             SizedBox(
                               height: 50.0,
                               child: Stack(

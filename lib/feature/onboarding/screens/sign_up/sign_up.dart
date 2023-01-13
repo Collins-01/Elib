@@ -1,3 +1,6 @@
+import 'package:elib/helpers/snakbars.dart';
+import 'package:elib/helpers/util_helpers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:elib/feature/dashboard/screens/dashboard.dart';
@@ -15,6 +18,7 @@ import 'package:elib/helpers/components/telephone_input.dart';
 import 'package:elib/helpers/navigators.dart';
 import 'package:elib/helpers/page_layout/page_layout.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -24,6 +28,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   GlobalKey<FormState> _signUpFormkey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
+  TextEditingController _userNameController = TextEditingController();
   TextEditingController _phoneNumeberController = TextEditingController();
   TextEditingController _passWordController = TextEditingController();
 
@@ -74,6 +79,14 @@ class _SignUpState extends State<SignUp> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
+                            InputField(
+                              title: "Username",
+                              controller: _userNameController,
+                              hintText: "John doe",
+                            ),
+                            const SizedBox(
+                              height: 24.0,
+                            ),
                             EmailInputField(
                               title: "Enter your email address",
                               controller: _emailController,
@@ -91,11 +104,27 @@ class _SignUpState extends State<SignUp> {
                               height: 24.0,
                             ),
                             InputField(
-                              title: "Enter password",
-                              passwordInput: _showPassword,
-                              controller: _passWordController,
-                              hintText: "Password",
-                            ),
+                                title: "Enter password",
+                                passwordInput: _showPassword,
+                                controller: _passWordController,
+                                hintText: "Password",
+                                suffix: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _showPassword = !_showPassword;
+                                    });
+                                  },
+                                  child: Container(
+                                    width: 20.0,
+                                    child: Image.asset(
+                                      _showPassword
+                                          ? "assets/icons/show_pass.png"
+                                          : "assets/icons/hide_pass.png",
+                                      width: 12.0,
+                                      height: 12.0,
+                                    ),
+                                  ),
+                                )),
                             const SizedBox(
                               height: 10.0,
                             ),
@@ -153,10 +182,7 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 8.0,
-                            ),
-                            const LoginWithGoogle(),
+                          
                             SizedBox(
                               height: 50.0,
                               child: Stack(
@@ -284,19 +310,65 @@ class _SignUpState extends State<SignUp> {
         ));
   }
 
-  signUpAction(context, data) {
+  signUpAction(context, data) async {
     nextPage(context, (context) => Dashboard());
-    // setState(() {
-    //   _loading = true;
-    // });
-    // final req = AuthServices().signUp(data, context).then((value) {
-    //   setState(() {
-    //     _loading = false;
-    //   });
-    // }).catchError((err) {
-    //   setState(() {
-    //     _loading = false;
-    //   });
-    // });
+    final _pref = await SharedPreferences.getInstance();
+    final token = _pref.getString("token");
+    setState(() {
+      _loading = true;
+    });
+
+    try {
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passWordController.text.trim());
+      setState(() {
+        _loading = false;
+      });
+      print(credential.user!.uid);
+      _pref.setString("token", credential.user!.uid);
+      _pref.setString("email", credential.user!.email!);
+
+      // defaultSnackyBar(context, "login successfull", successColor);
+      // nextPageNoPop(context, (context) => Dashboard());
+      final data = {
+        "name": _userNameController.text.trim(),
+        "email": _emailController.text.trim(),
+        "phoneNumber": _phoneNumeberController.text.trim(),
+        "userId": credential.user!.uid
+      };
+      addUser(context, data);
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _loading = false;
+      });
+      String err = "${e.message}";
+      if (e.code == 'user-not-found') {
+        err = 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        err = 'Wrong password provided for that user.';
+      }
+      defaultSnackyBar(context, err, dangerColor);
+      print(e);
+    } catch (e) {
+      // print(e);
+      defaultSnackyBar(context, "An error occured", dangerColor);
+      setState(() {
+        _loading = false;
+      });
+    } // setState(() {
+  }
+
+  addUser(context, userData) async {
+    final req =
+        await firestore.collection("users").add(userData).whenComplete(() {
+      defaultSnackyBar(context, "Sign up successfull.", successColor);
+      nextPageNoPop(context, (context) => Dashboard());
+    }).catchError((err) {
+      setState(() {
+        _loading = false;
+      });
+    });
   }
 }

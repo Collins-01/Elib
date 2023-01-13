@@ -1,8 +1,11 @@
+import 'package:elib/feature/settings/screens/profile/profile.dart';
+import 'package:elib/helpers/navigators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:elib/helpers/colors.dart';
 import 'package:elib/helpers/page_layout/page_layout.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatelessWidget {
   Settings();
@@ -20,19 +23,24 @@ class TabBarDemo extends StatelessWidget {
     return PageLayout(
         title: 'Settings',
         navPop: false,
-        fontSize:30,
-        appBarColor:primaryColor,
-        titleTextColor:Colors.white,
-        appBarElevation:2.0,
+        fontSize: 30,
+        appBarColor: primaryColor,
+        titleTextColor: Colors.white,
+        appBarElevation: 2.0,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-          
             const SizedBox(
               height: 27,
             ),
             SettingsTab(
-                onpress: () {},
+                onpress: () async{
+                  final _pref = await SharedPreferences.getInstance();
+                  final uid= _pref.getString("token");
+                  nextPage(context, (context) => Profile(
+                    uid:"JmW5fPcrye23STdm30CL",
+                  ));
+                },
                 iconColor: textColor,
                 icon: "assets/icons/person.svg",
                 title: "Profile"),

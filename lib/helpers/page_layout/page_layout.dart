@@ -12,10 +12,11 @@ class PageLayout extends StatefulWidget {
       this.child,
       this.title,
       this.titleTextColor = Colors.white,
-      this.fontSize = 30,
+      this.leadingNavIconColor = Colors.white,
+      this.fontSize = 20,
       this.backOnPressed = null,
       this.appBarActions,
-      this.appBarColor =primaryColor,
+      this.appBarColor = primaryColor,
       this.scaffoldColor = Colors.white,
       this.scaffoldPadding = 16.0,
       this.bottomNavEnabled = false,
@@ -24,6 +25,7 @@ class PageLayout extends StatefulWidget {
 
   final appBarActions;
   final Color appBarColor;
+  final Color leadingNavIconColor;
   final bool appBarDrawerEnabled;
   final double appBarElevation;
   final Function? backOnPressed;
@@ -72,72 +74,79 @@ class _PageLayoutState extends State<PageLayout> {
           : Scaffold(
               key: widget.key,
               body: Container(
-                  color: widget.scaffoldColor,
-                  child: Column(
-                    children: [
-                      PhysicalModel(
+                color: widget.scaffoldColor,
+                child: Column(
+                  children: [
+                    PhysicalModel(
+                      color: widget.appBarColor,
+                      elevation: widget.appBarElevation,
+                      child: Container(
                         color: widget.appBarColor,
-                        elevation:widget.appBarElevation,
-                        child: Container(
-                          color: widget.appBarColor,
-                          height: 120.0,
-                          child: Column(
-                            crossAxisAlignment:CrossAxisAlignment.stretch,
-                            children: [
-                              SizedBox(height:55.0,),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                child: Row(
-                                  children: [
-                                    widget.navPop
-                                        ? InkWell(
-                                            child: Icon(Icons.arrow_back_ios),
-                                            onTap: () => Navigator.of(context).pop(),
-                                          )
-                                        : const SizedBox(
-                                            width: 0,
+                        height: 110.0,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            SizedBox(
+                              height: 55.0,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Row(
+                                children: [
+                                  widget.navPop
+                                      ? InkWell(
+                                          child: Icon(
+                                            Icons.arrow_back_ios,
+                                            color:widget.leadingNavIconColor,
                                           ),
-                                    const SizedBox(
-                                      width: 5.0,
-                                    ),
-                                    Expanded(
-                                        child: Row(
-                                      children: [
-                                        Text(
-                                          '${widget.title}',
-                                          style: textStyle(
-                                            fontSize: widget.fontSize,
-                                            fontWeight: FontWeight.w500,
-                                            color: widget.titleTextColor,
-                                          ),
+                                          onTap: () =>
+                                              Navigator.of(context).pop(),
+                                        )
+                                      : const SizedBox(
+                                          width: 0,
                                         ),
-                                      ],
-                                    )),
-                                    Expanded(
+                                  const SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Expanded(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: widget.appBarActions ?? [],
+                                    children: [
+                                      Text(
+                                        '${widget.title}',
+                                        style: textStyle(
+                                          fontSize: widget.fontSize,
+                                          fontWeight: FontWeight.w500,
+                                          color: widget.titleTextColor,
+                                        ),
                                       ),
-                                    )
-                                  ],
-                                ),
+                                    ],
+                                  )),
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: widget.appBarActions ?? [],
+                                    ),
+                                  )
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: widget.scaffoldPadding!),
-                          child: _loading ? const Text("") : widget.child,
-                        ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: widget.scaffoldPadding!),
+                        child: _loading ? const Text("") : widget.child,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-          
+            ),
+
       // ),
     );
   }

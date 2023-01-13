@@ -1,9 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import 'package:elib/feature/notice/screens/notice_details.dart';
+import 'package:elib/helpers/error_widget.dart';
+import 'package:elib/helpers/loaders.dart';
+import 'package:elib/helpers/navigators.dart';
+import 'package:elib/helpers/util_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:elib/helpers/colors.dart';
 import 'package:elib/helpers/components/flexible_text.dart';
 import 'package:elib/helpers/page_layout/page_layout.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
+import 'package:jiffy/jiffy.dart';
 
 class Blog extends StatefulWidget {
   @override
@@ -17,18 +22,16 @@ class _BlogState extends State<Blog> {
       // title:'Blog',
       title: 'Notice',
       navPop: false,
-      fontSize:30,
-      appBarColor:primaryColor,
-      titleTextColor:Colors.white,
-      appBarElevation:2.0,
+      fontSize: 30,
+      appBarColor: primaryColor,
+      titleTextColor: Colors.white,
+      appBarElevation: 2.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(
             height: 27,
           ),
-          
-         
           Row(
             children: [
               Expanded(
@@ -43,13 +46,38 @@ class _BlogState extends State<Blog> {
             ],
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount:2,
-              itemBuilder:(BuildContext context, index){
-                return NoticeTab();
-              }
-            ),
-          )
+              child: FutureBuilder(
+                  future: firestore.collection("notice").get(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return const Center(
+                        child: spinnerPry,
+                      );
+                    }
+                    if (snapshot.hasError) {
+                      print("${snapshot.error}");
+                      return ErrorPageWidget();
+                    }
+                    final data = snapshot.data;
+                    print("courses");
+                    print("-==-");
+                    print(data.docs);
+                    final courses = data.docs ?? [];
+                    return ListView.builder(
+                        padding:EdgeInsets.all(0),
+                        itemCount: courses.length,
+                        itemBuilder: (BuildContext context, i) {
+                          final dataa = courses[i].data();
+                          return Column(
+                            children: [
+                              NoticeTab(
+                                data: dataa,
+                              ),
+                              Divider()
+                            ],
+                          );
+                        });
+                  }))
         ],
       ),
     );
@@ -57,95 +85,108 @@ class _BlogState extends State<Blog> {
 }
 
 class NoticeTab extends StatelessWidget {
+  final data;
+  NoticeTab({this.data});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 120.0,
-      margin: const EdgeInsets.only(top: 10.0),
-      child: Row(
-        children: [
-          ImageContainer(),
-          const SizedBox(
-            width: 10.0,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(
-                  height: 10.0,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: FlexibleText(
-                        text: "Funke Akindele’s house warming party. ",
-                        maxLine: 2,
-                        style: textStyle(
-                            color: textColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14.0),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 4.0,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: FlexibleText(
-                        text: "By Jide Indimi ",
-                        maxLine: 2,
-                        style: textStyle(
-                            color: textColor,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12.0),
-                      ),
-                    )
-                  ],
-                ),
-                const Expanded(child: Text("")),
-                Row(
-                  children: [
-                    Expanded(
-                      child: FlexibleText(
-                        text: "Today: 1:30pm ",
-                        maxLine: 2,
-                        style: textStyle(
-                            color: textColor,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 12.0),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-              ],
+    // var date = DateTime.fromMillisecondsSinceEpoch(data['createdAt'] * 1000);
+    // var date = data['createdAt'];
+    return InkWell(
+      onTap:()=>nextPage(context,(context)=>NoticeDetails(
+        data:data,
+      )),
+      child: Container(
+        height: 80.0,
+        margin: const EdgeInsets.only(top: 10.0),
+        child: Row(
+          children: [
+            ImageContainer(
+              url: "${data['banner']}",
             ),
-          )
-        ],
+            const SizedBox(
+              width: 10.0,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: FlexibleText(
+                          text: "${data['title']}",
+                          maxLine: 2,
+                          style: textStyle(
+                              color: textColor,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14.0),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 4.0,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: FlexibleText(
+                          text: "Department: ${data['department']}",
+                          maxLine: 2,
+                          style: textStyle(
+                              color: textColor,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12.0),
+                        ),
+                      )
+                    ],
+                  ),
+                  const Expanded(child: Text("")),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: FlexibleText(
+                  //         text: "${Jiffy("", "yyyy-MM-dd").fromNow()}",
+                  //         maxLine: 2,
+                  //         style: textStyle(
+                  //             color: textColor,
+                  //             fontWeight: FontWeight.w300,
+                  //             fontSize: 12.0),
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
 class ImageContainer extends StatelessWidget {
+  final url;
+  ImageContainer({this.url = ""});
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
-      width: 129,
+      height: 60,
+      width: 60,
       decoration: BoxDecoration(
         color: Colors.grey,
-        image: const DecorationImage(
-          image: NetworkImage(""),
+        image: DecorationImage(
+          image: NetworkImage("${url}"),
           fit: BoxFit.cover,
         ),
-        borderRadius: BorderRadius.circular(2),
+        borderRadius: BorderRadius.circular(5),
       ),
       child: const Text(''),
     );
