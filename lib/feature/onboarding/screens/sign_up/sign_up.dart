@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:elib/helpers/snakbars.dart';
 import 'package:elib/helpers/util_helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,7 +31,10 @@ class _SignUpState extends State<SignUp> {
   GlobalKey<FormState> _signUpFormkey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _userNameController = TextEditingController();
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
   TextEditingController _phoneNumeberController = TextEditingController();
+  TextEditingController _matricController = TextEditingController();
   TextEditingController _passWordController = TextEditingController();
 
   bool _showPassword = true;
@@ -83,6 +88,30 @@ class _SignUpState extends State<SignUp> {
                               title: "Username",
                               controller: _userNameController,
                               hintText: "John doe",
+                            ),
+                            const SizedBox(
+                              height: 24.0,
+                            ),
+                            InputField(
+                              title: "Firstname",
+                              controller: _firstNameController,
+                              hintText: "John doe",
+                            ),
+                            const SizedBox(
+                              height: 24.0,
+                            ),
+                            InputField(
+                              title: "Lastname",
+                              controller: _lastNameController,
+                              hintText: "John doe",
+                            ),
+                            const SizedBox(
+                              height: 24.0,
+                            ),
+                            InputField(
+                              title: "Matric number",
+                              controller: _matricController,
+                              hintText: "F/HD/20/3210005",
                             ),
                             const SizedBox(
                               height: 24.0,
@@ -311,7 +340,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   signUpAction(context, data) async {
-    nextPage(context, (context) => Dashboard());
+    // nextPage(context, (context) => Dashboard());
     final _pref = await SharedPreferences.getInstance();
     final token = _pref.getString("token");
     setState(() {
@@ -333,12 +362,15 @@ class _SignUpState extends State<SignUp> {
       // defaultSnackyBar(context, "login successfull", successColor);
       // nextPageNoPop(context, (context) => Dashboard());
       final data = {
-        "name": _userNameController.text.trim(),
+        "name": _userNameController.text.trim().toLowerCase(),
+        "firstName":_firstNameController.text.trim().toLowerCase(),
+        "lastName":_lastNameController.text.trim().toLowerCase(),
+        "matricNumber":_matricController.text.trim().toLowerCase(),
         "email": _emailController.text.trim(),
         "phoneNumber": _phoneNumeberController.text.trim(),
         "userId": credential.user!.uid
       };
-      addUser(context, data);
+      addUser(context, data,credential.user!.uid);
     } on FirebaseAuthException catch (e) {
       setState(() {
         _loading = false;
@@ -358,13 +390,19 @@ class _SignUpState extends State<SignUp> {
         _loading = false;
       });
     } // setState(() {
+
   }
 
-  addUser(context, userData) async {
+  addUser(context, userData,uid) async {
     final req =
-        await firestore.collection("users").add(userData).whenComplete(() {
+        await firestore.collection("users").doc(uid).set(userData).whenComplete(() {
       defaultSnackyBar(context, "Sign up successfull.", successColor);
-      nextPageNoPop(context, (context) => Dashboard());
+       Timer(
+        Duration(seconds: 3),
+        () => {
+          nextPageNoPop(context, (context) => Dashboard()),
+        });
+      
     }).catchError((err) {
       setState(() {
         _loading = false;

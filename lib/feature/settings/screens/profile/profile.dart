@@ -7,6 +7,7 @@ import 'package:elib/helpers/loaders.dart';
 import 'package:elib/helpers/navigators.dart';
 import 'package:elib/helpers/page_layout/page_layout.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
+import 'package:elib/helpers/snakbars.dart';
 import 'package:elib/helpers/util_helpers.dart';
 import 'package:elib/welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -92,42 +93,114 @@ class _ProfileState extends State<Profile> {
             print(data.data());
             print("=-090e0iiiie");
             print("-===-");
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(
-                  height: 10.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.account_circle_rounded,
-                      size: 120.0,
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment:CrossAxisAlignment.stretch,
-                  children: [
-                    InputField(
-                      title:"Email",
-                    ),
-                    const SizedBox(height:24.0,),
-                    InputField(
-                      title:"Username",
-                    ),
-                    const SizedBox(height:24.0,),
-                    InputField(
-                      title:"Phone number",
-                    ),
-                    const SizedBox(height:24.0,),
-                    AppButton()
-                  ],
-                )
-              ],
-            );
+            final user = data.data();
+
+            return UserEdit(data: user,uid:widget.uid);
           }),
     );
   }
+
+  bool _loading = false;
+}
+
+class UserEdit extends StatefulWidget {
+  const UserEdit({super.key, this.data,this.uid});
+  final data,uid;
+  @override
+  State<UserEdit> createState() => _UserEditState();
+}
+
+class _UserEditState extends State<UserEdit> {
+  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _emailController.text = widget.data['email'];
+    _nameController.text = widget.data['name'];
+    _phoneNumberController.text = widget.data['phoneNumber'];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const SizedBox(
+          height: 10.0,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(
+              Icons.account_circle_rounded,
+              size: 120.0,
+            ),
+          ],
+        ),
+        InputField(
+          readOnly: true,
+          title: "Email",
+          controller: _emailController,
+        ),
+        const SizedBox(
+          height: 24.0,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            InputField(
+              title: "Username",
+              controller: _nameController,
+            ),
+            const SizedBox(
+              height: 24.0,
+            ),
+            InputField(
+              title: "Phone number",
+              controller: _phoneNumberController,
+            ),
+            const SizedBox(
+              height: 24.0,
+            ),
+            AppButton(
+              loading: _loading,
+              onPress: () async {
+                setState(() {
+                  _loading = true;
+                });
+                final data = {
+                  "name": _nameController.text.trim(),
+                  "email": _emailController.text.trim(),
+                  "phoneNumber": _phoneNumberController.text.trim(),
+                  "userId": widget.uid
+                };
+                final req = await firestore
+                    .collection("users")
+                    .doc(widget.uid)
+                    .update(data)
+                    .whenComplete(() {
+                  defaultSnackyBar(context, "Profile updated", successColor);
+                  setState(() {
+                    _loading = false;
+                  });
+                }).catchError((err) {
+                  setState(() {
+                    _loading = false;
+                  });
+                });
+              },
+              title: "Submit",
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  bool _loading = false;
 }

@@ -1,4 +1,5 @@
 import 'package:elib/feature/settings/screens/profile/profile.dart';
+import 'package:elib/feature/settings/screens/support/support.dart';
 import 'package:elib/helpers/navigators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,18 +35,21 @@ class TabBarDemo extends StatelessWidget {
               height: 27,
             ),
             SettingsTab(
-                onpress: () async{
+                onpress: () async {
                   final _pref = await SharedPreferences.getInstance();
-                  final uid= _pref.getString("token");
-                  nextPage(context, (context) => Profile(
-                    uid:"JmW5fPcrye23STdm30CL",
-                  ));
+                  final uid = _pref.getString("token");
+                  // print(uid);
+                  nextPage(
+                      context,
+                      (context) => Profile(
+                            uid:uid
+                          ));
                 },
                 iconColor: textColor,
                 icon: "assets/icons/person.svg",
                 title: "Profile"),
             SettingsTab(
-                onpress: () {},
+                onpress: ()=>nextPage(context,(context)=>Support()),
                 iconColor: textColor,
                 icon: "assets/icons/support.svg",
                 title: "Help and support"),
@@ -54,11 +58,11 @@ class TabBarDemo extends StatelessWidget {
                 iconColor: textColor,
                 icon: "assets/icons/lock.svg",
                 title: "Privacy policy"),
-            SettingsTab(
-                onpress: () {},
-                iconColor: textColor,
-                icon: "assets/icons/terms.svg",
-                title: "Terms of service"),
+            // SettingsTab(
+            //     onpress: () {},
+            //     iconColor: textColor,
+            //     icon: "assets/icons/terms.svg",
+            //     title: "Terms of service"),
           ],
         ));
   }

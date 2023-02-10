@@ -1,3 +1,4 @@
+import 'package:elib/feature/courses/screens/search_course.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +19,7 @@ class _DashboardState extends State<Dashboard> {
 
   List<Widget> currentRender = [
     Home(),
-    CatchUp(),
+    SearchCourse(),
     Blog(),
     Settings(),
   ];

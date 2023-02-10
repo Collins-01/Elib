@@ -16,16 +16,11 @@ class _HomeState extends State<Home> {
         // noAppBar: true,
         navPop: false,
         title: "Home",
-        fontSize:30,
+        fontSize:25,
         appBarColor:primaryColor,
         titleTextColor:Colors.white,
         appBarElevation:2.0,
-        appBarActions:[
-          IconButton(
-            onPressed:()=>null, 
-            icon: Icon(Icons.search,color:Colors.white,)
-          )
-        ],
+       
         child:SingleChildScrollView(
           child: Column(
             crossAxisAlignment:CrossAxisAlignment.stretch,
@@ -45,7 +40,7 @@ class _HomeState extends State<Home> {
                 children: [
                   Expanded(
                     child:Text(
-                      "Our app allow you access a library of learning resources, including textbooks, documents, and links, all tailored to your curriculum to help you stay on top of your studies and excel in your classes.",
+                      "Our app allows you access a library of learning resources, including textbooks, documents, and links, all tailored to your curriculum to help you stay on top of your studies and excel in your classes.",
                         textAlign:TextAlign.center,
                         style:textStyle(
                           fontSize:18.0

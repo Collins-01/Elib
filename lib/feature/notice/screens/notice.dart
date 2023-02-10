@@ -25,6 +25,7 @@ class _BlogState extends State<Blog> {
       fontSize: 30,
       appBarColor: primaryColor,
       titleTextColor: Colors.white,
+
       appBarElevation: 2.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -36,7 +37,7 @@ class _BlogState extends State<Blog> {
             children: [
               Expanded(
                 child: Text(
-                  "Read articles on gists surrounding entertainment, fashion, and so many others. ",
+                  "Read articles and keep updates on the current happenings with the college. ",
                   style: textStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
@@ -59,20 +60,20 @@ class _BlogState extends State<Blog> {
                       return ErrorPageWidget();
                     }
                     final data = snapshot.data;
-                    print("courses");
-                    print("-==-");
-                    print(data.docs);
+                    // print("courses");
+                    // print("-==-");
+                    // print(data.docs);
                     final courses = data.docs ?? [];
                     return ListView.builder(
-                        padding:EdgeInsets.all(0),
+                        padding: EdgeInsets.all(0),
                         itemCount: courses.length,
                         itemBuilder: (BuildContext context, i) {
                           final dataa = courses[i].data();
+                          // print("noticeid");
+                          // print(courses[i].id);
                           return Column(
                             children: [
-                              NoticeTab(
-                                data: dataa,
-                              ),
+                              NoticeTab(data: dataa, id: courses[i].id),
                               Divider()
                             ],
                           );
@@ -85,16 +86,22 @@ class _BlogState extends State<Blog> {
 }
 
 class NoticeTab extends StatelessWidget {
-  final data;
-  NoticeTab({this.data});
+  final data, id;
+  NoticeTab({this.data, this.id});
   @override
   Widget build(BuildContext context) {
     // var date = DateTime.fromMillisecondsSinceEpoch(data['createdAt'] * 1000);
     // var date = data['createdAt'];
     return InkWell(
-      onTap:()=>nextPage(context,(context)=>NoticeDetails(
-        data:data,
-      )),
+      onTap: () {
+
+        nextPage(
+            context,
+            (context) => NoticeDetails(
+                  data: data,
+                  id: id,
+                ));
+      },
       child: Container(
         height: 80.0,
         margin: const EdgeInsets.only(top: 10.0),

@@ -20,6 +20,12 @@ class _CourseDetailsState extends State<CourseDetails> {
   Widget build(BuildContext context) {
     return PageLayout(
       title: "Course Details",
+      appBarActions:const[
+        TextButton(
+          onPressed:null,
+          child:Text(""),
+        )
+      ],
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -34,14 +40,14 @@ class _CourseDetailsState extends State<CourseDetails> {
             leading: Icon(Icons.local_library),
             contentPadding: EdgeInsets.all(0),
             title: Text("Course code "),
-            subtitle: Text("${widget.data['courseCode']}"),
+            subtitle: Text("${widget.data['codeCode']}"),
           ),
           Divider(),
           ListTile(
             leading: Icon(Icons.local_library),
             contentPadding: EdgeInsets.all(0),
             title: Text("Tutor"),
-            subtitle: Text("${widget.data['authors']}"),
+            subtitle: Text("${widget.data['authors'] == "Null" ? '' :widget.data['authors'] }"),
           ),
           Divider(),
           InkWell(
@@ -51,13 +57,14 @@ class _CourseDetailsState extends State<CourseDetails> {
                   ? await launch(url)
                   : throw pageToast('Could not launch $url', dangerColor);
             },
-            child: ListTile(
+            child:const ListTile(
               leading: Icon(Icons.local_library),
               contentPadding: EdgeInsets.all(0),
               title: Text("Course Pdf "),
-              subtitle: Text("Link",style:textStyle(
-                color:Colors.blue
-              ),),
+              trailing:Icon(Icons.download),
+              // subtitle: Text("Link",style:textStyle(
+              //   color:Colors.blue
+              // ),),
             ),
           ),
           Divider(),
@@ -68,13 +75,14 @@ class _CourseDetailsState extends State<CourseDetails> {
                   ? await launch(url)
                   : throw pageToast('Could not launch $url', dangerColor);
             },
-            child: ListTile(
+            child:const ListTile(
               leading: Icon(Icons.local_library),
               contentPadding: EdgeInsets.all(0),
               title: Text("Course Curriculum "),
-              subtitle: Text("Link",style:textStyle(
-                color:Colors.blue
-              ),),
+              trailing:Icon(Icons.download),
+              // subtitle: Text("Link",style:textStyle(
+              //   color:Colors.blue
+              // ),),
             ),
           ),
           Divider(),

@@ -1,15 +1,24 @@
 import 'package:elib/helpers/colors.dart';
+import 'package:elib/helpers/components/button.dart';
+import 'package:elib/helpers/components/buttons.dart';
 import 'package:elib/helpers/components/flexible_text.dart';
+import 'package:elib/helpers/components/input_field.dart';
+import 'package:elib/helpers/error_widget.dart';
+import 'package:elib/helpers/loaders.dart';
 import 'package:elib/helpers/page_layout/page_layout.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
+import 'package:elib/helpers/snakbars.dart';
+import 'package:elib/helpers/util_helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
 
 class NoticeDetails extends StatefulWidget {
-  const NoticeDetails({Key? key, this.data}) : super(key: key);
-  final data;
+  const NoticeDetails({Key? key, this.data, this.id}) : super(key: key);
+  final data, id;
   @override
   State<NoticeDetails> createState() => _NoticeDetailsState();
 }
@@ -19,127 +28,235 @@ class _NoticeDetailsState extends State<NoticeDetails> {
   Widget build(BuildContext context) {
     return PageLayout(
       title: "",
-      appBarColor: Colors.white,
-      leadingNavIconColor: Colors.black,
+      appBarColor: primaryColor1,
+      leadingNavIconColor: Colors.white,
       appBarElevation: 0.9,
+      scaffoldPadding: 0,
+      appBarActions: [TextButton(onPressed: null, child: Text(""))],
       child: Stack(
         children: [
-           
           SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(
-                  height: 10.0,
-                ),
                 Row(
                   children: [
                     Expanded(
                         child: ImageContainer(
                       url: "${widget.data['banner']}",
+                      borderRadius: 0.0,
                     ))
                   ],
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
-                Row(
-                  children: [
-                    // Icon(Icons.forum),
-                    Expanded(
-                      child: FlexibleText(
-                        text: "${widget.data['title']}",
-                        maxLine: 2,
-                        style: textStyle(
-                            color: textColor,
-                            fontSize: 36,
-                            fontWeight: FontWeight.w700),
-                      ),
-                    )
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      // Icon(Icons.forum),
+                      Expanded(
+                        child: FlexibleText(
+                          text: "${widget.data['title']}",
+                          maxLine: 2,
+                          style: textStyle(
+                              color: textColor,
+                              fontSize: 36,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(),
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        "${widget.data['message']}",
-                        style: textStyle(
-                            color: textColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    )
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "${widget.data['message']}",
+                          textAlign: TextAlign.justify,
+                          style: textStyle(
+                              color: textColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              
                 SizedBox(
                   height: 40.0,
                 ),
-                Row(
-                  children: [
-                    Text("Comments",style:textStyle(color:textColor,fontSize:18.0,fontWeight:FontWeight.w700),)
-                  ],
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                SizedBox(
-                  height: 500.0,
-                  child: ListView.builder(
-                    padding:EdgeInsets.all(0),
-                    itemCount:10,
-                    itemBuilder: (BuildContext context, i) {
-                      return Column(
-                        children: [
-                          ListTile(
-                            leading:CircleAvatar(
-                              backgroundColor:Color(0xff2e7d32),
-                              radius:20.0,
-                              child:Text("A",style:textStyle(
-                                fontSize:16.0
-                              ),),
-                            ),
-                            contentPadding:EdgeInsets.all(0),
-                            title:Text("Ade"),
-                            subtitle:Text("Omo dis on go far."),
-                          ),
-                          Divider()
-                        ],
-                      );
-                    },
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Comments",
+                        style: textStyle(
+                            color: textColor,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            setState(() {});
+                          },
+                          icon: Icon(Icons.refresh))
+                    ],
                   ),
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                Container(
+                  color: Color(0xffeeeeee),
+                  height: 400.0,
+                  child: FutureBuilder(
+                      future: firestore
+                          .collection("comments")
+                          .where('notice_id', isEqualTo: '${widget.id}')
+                          .get(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.connectionState != ConnectionState.done) {
+                          return const Center(
+                            child: spinnerPry,
+                          );
+                        }
+                        if (snapshot.hasError) {
+                          print("${snapshot.error}");
+                          return ErrorPageWidget();
+                        }
+                        final data = snapshot.data;
+                        print("comments");
+                        print("-==-");
+                        print(data.docs);
+                        final comment = data.docs ?? [];
+
+                        return comment.length <= 0
+                            ? Center(
+                                child: Text("No comment yet."),
+                              )
+                            : ListView.builder(
+                                padding: EdgeInsets.all(0),
+                                itemCount: comment.length,
+                                itemBuilder: (BuildContext context, i) {
+                                  final dataa = comment[i].data();
+
+                                  return Column(
+                                    children: [
+                                      ListTile(
+                                        leading: CircleAvatar(
+                                          backgroundColor: Color(0xff2e7d32),
+                                          radius: 20.0,
+                                          child: Text(
+                                            "${dataa['userEmail'][0].toUpperCase()}",
+                                            style: textStyle(
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                        contentPadding: EdgeInsets.all(8),
+                                        title: Text("${dataa['userEmail']}"),
+                                        subtitle: Text("${dataa['comment']}"),
+                                      ),
+                                      Divider()
+                                    ],
+                                  );
+                                },
+                              );
+                      }),
                 ),
               ],
             ),
           ),
-          Column(
-            crossAxisAlignment:CrossAxisAlignment.stretch,
-            mainAxisAlignment:MainAxisAlignment.end,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  FloatingActionButton(
-                    onPressed: () => null,
-                    child: Icon(Icons.insert_comment),
-                  )
-                ],
-              ),
-              SizedBox(height:50.0,)
-            ],
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FloatingActionButton(
+                      onPressed: () =>
+                          {print("dskjds"), commentOnNotice(context)},
+                      child: Icon(Icons.insert_comment),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 50.0,
+                )
+              ],
+            ),
           ),
         ],
       ),
     );
   }
+
+  commentOnNotice(context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+        ),
+        builder: (BuildContext context) {
+          return Container(
+              height: 85.h,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(
+                    height: 5.0,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text("Cancel")),
+                          ],
+                        ),
+                      ),
+                      Divider(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: PostComment(
+                          noticeId: widget.id,
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                ],
+              ));
+        });
+  }
 }
 
 class ImageContainer extends StatelessWidget {
-  final url;
-  ImageContainer({this.url = ""});
+  final url, borderRadius;
+  ImageContainer({this.url = "", this.borderRadius = 5});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -150,9 +267,89 @@ class ImageContainer extends StatelessWidget {
           image: NetworkImage("${url}"),
           fit: BoxFit.cover,
         ),
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: const Text(''),
     );
+  }
+}
+
+class PostComment extends StatefulWidget {
+  const PostComment({super.key, this.noticeId});
+  final noticeId;
+  @override
+  State<PostComment> createState() => _PostCommentState();
+}
+
+class _PostCommentState extends State<PostComment> {
+  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
+  final TextEditingController _commentController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formkey,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            InputField(
+              maxLine: 10,
+              title: "Enter a comment",
+              hintText: "comment",
+              controller: _commentController,
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 100,
+                  child: AppButton(
+                    loading: _loading,
+                    title: "Post",
+                    onPress: () {
+                      if (_formkey.currentState!.validate()) {
+                        postCommentAction(context);
+                      }
+                    },
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  bool _loading = false;
+  postCommentAction(context) async {
+    setState(() {
+      _loading = true;
+    });
+    final _pref = await SharedPreferences.getInstance();
+    final email = _pref.getString("email");
+
+    final data = {
+      "userEmail": email,
+      "notice_id": widget.noticeId,
+      "comment": _commentController.text.trim(),
+      "createdAt": DateTime.now()
+    };
+    final req = await firestore.collection("comments").add(data).then((value) {
+      setState(() {
+        _loading = false;
+      });
+      Navigator.pop(context);
+      defaultSnackyBar(context, "Comment Posted", primaryColor);
+      setState(() {});
+    }).catchError((err) {
+      setState(() {
+        _loading = false;
+      });
+    });
   }
 }

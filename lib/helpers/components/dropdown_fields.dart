@@ -82,7 +82,7 @@ class _DropdownFieldState extends State<DropdownField> {
                 decoration: secondaryDecoration.copyWith(
                   hintText: widget.title,
                   hintStyle: textStyle(color: textColor, fontSize: 14),
-                  fillColor: inputFieldBoderColor,
+                  fillColor: inputFieldBoderColorBg,
                   isDense: true,
                   contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 17),
                   border: OutlineInputBorder(

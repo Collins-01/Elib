@@ -18,7 +18,7 @@ class PageLayout extends StatefulWidget {
       this.appBarActions,
       this.appBarColor = primaryColor,
       this.scaffoldColor = Colors.white,
-      this.scaffoldPadding = 16.0,
+      this.scaffoldPadding = 26.0,
       this.bottomNavEnabled = false,
       this.navPop = true,
       this.appBarElevation = 0.1});
@@ -82,12 +82,12 @@ class _PageLayoutState extends State<PageLayout> {
                       elevation: widget.appBarElevation,
                       child: Container(
                         color: widget.appBarColor,
-                        height: 110.0,
+                        height: 100.0,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             SizedBox(
-                              height: 55.0,
+                              height:45.0,
                             ),
                             Padding(
                               padding:

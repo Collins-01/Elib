@@ -1,3 +1,5 @@
+import 'package:elib/feature/onboarding/screens/forget_password/screens/forget_password.dart';
+import 'package:elib/helpers/util_helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:elib/feature/dashboard/screens/dashboard.dart';
@@ -22,7 +24,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   GlobalKey<FormState> _signInFormkey = GlobalKey<FormState>();
 
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _matricNumberController = TextEditingController();
   final TextEditingController _passWordController = TextEditingController();
 
   bool _showPassword = true;
@@ -76,23 +78,23 @@ class _SignInState extends State<SignIn> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            EmailInputField(
-                              title: "Enter your email address",
-                              controller: _emailController,
-                              hintText: "Email Address",
+                            InputField(
+                              title: "Enter your matric number",
+                              controller: _matricNumberController,
+                              hintText: "E.g F/ND/20/3210001",
                             ),
                             const SizedBox(
                               height: 24.0,
                             ),
                             InputField(
-                              title: "Enter password",
-                              passwordInput: _showPassword,
-                              controller: _passWordController,
-                              hintText: "Password",
-                              suffix: InkWell(
+                                title: "Enter Lastname",
+                                passwordInput: _showPassword,
+                                controller: _passWordController,
+                                hintText: "doe",
+                                suffix: InkWell(
                                   onTap: () {
                                     setState(() {
-                                     _showPassword = !_showPassword;
+                                      _showPassword = !_showPassword;
                                     });
                                   },
                                   child: Container(
@@ -105,8 +107,7 @@ class _SignInState extends State<SignIn> {
                                       height: 12.0,
                                     ),
                                   ),
-                                )
-                            ),
+                                )),
                             const SizedBox(
                               height: 10.0,
                             ),
@@ -115,9 +116,8 @@ class _SignInState extends State<SignIn> {
                               children: [
                                 SizedBox(
                                   child: InkWell(
-                                    onTap: null,
-                                    // onTap: () => nextPage(context,
-                                    // (context) => ResetPasswordEnterEmail()),
+                                    onTap: () => nextPage(
+                                        context, (context) => ForgetPassword()),
                                     child: Text(
                                       "Forgot Password?",
                                       style: textStyle(
@@ -137,7 +137,14 @@ class _SignInState extends State<SignIn> {
                               loading: _loading,
                               onPress: () {
                                 if (_signInFormkey.currentState!.validate()) {
-                                  signInAction(context);
+                                  // signInAction(context);
+                                  final matric = _matricNumberController.text
+                                      .trim()
+                                      .toLowerCase();
+                                  final pass = _passWordController.text
+                                      .trim()
+                                      .toLowerCase();
+                                  signInWithMatricNumber(context, matric, pass);
                                 }
                               },
                               title: "Sign in",
@@ -159,7 +166,6 @@ class _SignInState extends State<SignIn> {
                                 ),
                               ],
                             ),
-                           
                             SizedBox(
                               height: 50.0,
                               child: Stack(
@@ -214,6 +220,48 @@ class _SignInState extends State<SignIn> {
         ));
   }
 
+  signInWithMatricNumber(context, matric, pass) async {
+    final _pref = await SharedPreferences.getInstance();
+    setState(() {
+      _loading = true;
+    });
+    try {
+      final req = await firestore
+          .collection("users")
+          .where('matricNumber', isEqualTo: matric)
+          .where('lastName', isEqualTo: pass)
+          .get()
+          .then((value) {
+        setState(() {
+          _loading = false;
+        });
+        print(value.docs);
+        final data = value.docs;
+        if (data.length != 0) {
+          final user = data[0].data();
+          print(user);
+          _pref.setString("token", user['userId']);
+          _pref.setString("email", user['email']);
+
+          defaultSnackyBar(context, "login successfull", successColor);
+          nextPageNoPop(context, (context) => Dashboard());
+        } else {
+          defaultSnackyBar(context, "User not found", dangerColor);
+        }
+      }).catchError((err) {
+        setState(() {
+          _loading = false;
+        });
+      });
+    } catch (e) {
+      // print(e);
+      defaultSnackyBar(context, "An error occured", dangerColor);
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
+
   signInAction(context) async {
     final _pref = await SharedPreferences.getInstance();
     final token = _pref.getString("token");
@@ -225,7 +273,7 @@ class _SignInState extends State<SignIn> {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           // email:"fluffydev007@gmail.com",
           // password:"090Aai###",
-          email: _emailController.text.trim(),
+          email: _matricNumberController.text.trim(),
           password: _passWordController.text.trim());
       setState(() {
         _loading = false;
@@ -233,8 +281,8 @@ class _SignInState extends State<SignIn> {
       print(credential.user!.uid);
       _pref.setString("token", credential.user!.uid);
       _pref.setString("email", credential.user!.email!);
-      
-      defaultSnackyBar(context,"login successfull",successColor);
+
+      defaultSnackyBar(context, "login successfull", successColor);
       nextPageNoPop(context, (context) => Dashboard());
     } on FirebaseAuthException catch (e) {
       setState(() {
