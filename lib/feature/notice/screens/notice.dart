@@ -27,6 +27,12 @@ class _BlogState extends State<Blog> {
       titleTextColor: Colors.white,
 
       appBarElevation: 2.0,
+      appBarActions:[
+        IconButton(
+          onPressed:()=>setState(() {}), 
+          icon: Icon(Icons.refresh,color:Colors.white,)
+        )
+      ],
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -152,20 +158,21 @@ class NoticeTab extends StatelessWidget {
                     ],
                   ),
                   const Expanded(child: Text("")),
-                  // Row(
-                  //   children: [
-                  //     Expanded(
-                  //       child: FlexibleText(
-                  //         text: "${Jiffy("", "yyyy-MM-dd").fromNow()}",
-                  //         maxLine: 2,
-                  //         style: textStyle(
-                  //             color: textColor,
-                  //             fontWeight: FontWeight.w300,
-                  //             fontSize: 12.0),
-                  //       ),
-                  //     )
-                  //   ],
-                  // ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "${data['createdAt'] }",
+                          maxLines: 2,
+                          style: textStyle(
+                            color: textColor,
+                            fontWeight: FontWeight.w300,
+                            fontSize: 12.0
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                   const SizedBox(
                     height: 10.0,
                   ),

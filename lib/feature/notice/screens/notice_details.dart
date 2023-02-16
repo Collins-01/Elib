@@ -1,6 +1,8 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:elib/helpers/colors.dart';
 import 'package:elib/helpers/components/button.dart';
-import 'package:elib/helpers/components/buttons.dart';
 import 'package:elib/helpers/components/flexible_text.dart';
 import 'package:elib/helpers/components/input_field.dart';
 import 'package:elib/helpers/error_widget.dart';
@@ -9,12 +11,11 @@ import 'package:elib/helpers/page_layout/page_layout.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
 import 'package:elib/helpers/snakbars.dart';
 import 'package:elib/helpers/util_helpers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:path_provider/path_provider.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
 class NoticeDetails extends StatefulWidget {
   const NoticeDetails({Key? key, this.data, this.id}) : super(key: key);
@@ -24,6 +25,9 @@ class NoticeDetails extends StatefulWidget {
 }
 
 class _NoticeDetailsState extends State<NoticeDetails> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return PageLayout(
@@ -73,6 +77,22 @@ class _NoticeDetailsState extends State<NoticeDetails> {
                   padding: const EdgeInsets.all(16.0),
                   child: Divider(),
                 ),
+                 Padding(
+                   padding: const EdgeInsets.all(16.0),
+                   child: Row(
+                    mainAxisAlignment:MainAxisAlignment.end,
+                      children: [
+                         Text(
+                            "posted on: ${widget.data['createdAt'] }",
+                            style: textStyle(
+                              color: textColor,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 12.0
+                          ),
+                        )
+                      ],
+                    ),
+                 ),
                 SizedBox(
                   height: 10.0,
                 ),
@@ -252,6 +272,10 @@ class _NoticeDetailsState extends State<NoticeDetails> {
               ));
         });
   }
+
+
+  
+
 }
 
 class ImageContainer extends StatelessWidget {

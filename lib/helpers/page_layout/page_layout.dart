@@ -96,9 +96,12 @@ class _PageLayoutState extends State<PageLayout> {
                                 children: [
                                   widget.navPop
                                       ? InkWell(
-                                          child: Icon(
-                                            Icons.arrow_back_ios,
-                                            color:widget.leadingNavIconColor,
+                                          child: Container(
+                                            width:30.0,
+                                            child: Icon(
+                                              Icons.arrow_back_ios,
+                                              color:widget.leadingNavIconColor,
+                                            ),
                                           ),
                                           onTap: () =>
                                               Navigator.of(context).pop(),
@@ -112,12 +115,15 @@ class _PageLayoutState extends State<PageLayout> {
                                   Expanded(
                                       child: Row(
                                     children: [
-                                      Text(
-                                        '${widget.title}',
-                                        style: textStyle(
-                                          fontSize: widget.fontSize,
-                                          fontWeight: FontWeight.w500,
-                                          color: widget.titleTextColor,
+                                      Expanded(
+                                        child: Text(
+                                          '${widget.title}',
+                                          overflow:TextOverflow.ellipsis,
+                                          style: textStyle(
+                                            fontSize: widget.fontSize,
+                                            fontWeight: FontWeight.w500,
+                                            color: widget.titleTextColor,
+                                          ),
                                         ),
                                       ),
                                     ],

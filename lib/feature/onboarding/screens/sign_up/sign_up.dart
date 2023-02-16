@@ -132,28 +132,28 @@ class _SignUpState extends State<SignUp> {
                             const SizedBox(
                               height: 24.0,
                             ),
-                            InputField(
-                                title: "Enter password",
-                                passwordInput: _showPassword,
-                                controller: _passWordController,
-                                hintText: "Password",
-                                suffix: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      _showPassword = !_showPassword;
-                                    });
-                                  },
-                                  child: Container(
-                                    width: 20.0,
-                                    child: Image.asset(
-                                      _showPassword
-                                          ? "assets/icons/show_pass.png"
-                                          : "assets/icons/hide_pass.png",
-                                      width: 12.0,
-                                      height: 12.0,
-                                    ),
-                                  ),
-                                )),
+                            // InputField(
+                            //     title: "Enter password",
+                            //     passwordInput: _showPassword,
+                            //     controller: _passWordController,
+                            //     hintText: "Password",
+                            //     suffix: InkWell(
+                            //       onTap: () {
+                            //         setState(() {
+                            //           _showPassword = !_showPassword;
+                            //         });
+                            //       },
+                            //       child: Container(
+                            //         width: 20.0,
+                            //         child: Image.asset(
+                            //           _showPassword
+                            //               ? "assets/icons/show_pass.png"
+                            //               : "assets/icons/hide_pass.png",
+                            //           width: 12.0,
+                            //           height: 12.0,
+                            //         ),
+                            //       ),
+                            //     )),
                             const SizedBox(
                               height: 10.0,
                             ),
@@ -351,7 +351,7 @@ class _SignUpState extends State<SignUp> {
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: _emailController.text.trim(),
-              password: _passWordController.text.trim());
+              password: _userNameController.text.trim());
       setState(() {
         _loading = false;
       });
