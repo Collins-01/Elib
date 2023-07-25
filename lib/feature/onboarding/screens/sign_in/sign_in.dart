@@ -4,11 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:elib/feature/dashboard/screens/dashboard.dart';
 import 'package:elib/feature/onboarding/screens/sign_up/sign_up.dart';
-import 'package:elib/feature/onboarding/screens/sign_with_google/login_with_google.dart';
 import 'package:elib/helpers/colors.dart';
 import 'package:elib/helpers/components/app_icon.dart';
 import 'package:elib/helpers/components/button.dart';
-import 'package:elib/helpers/components/email_input.dart';
 import 'package:elib/helpers/components/input_field.dart';
 import 'package:elib/helpers/navigators.dart';
 import 'package:elib/helpers/page_layout/page_layout.dart';
@@ -17,12 +15,14 @@ import 'package:elib/helpers/snakbars.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignIn extends StatefulWidget {
+  const SignIn({super.key});
+
   @override
   _SignInState createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
-  GlobalKey<FormState> _signInFormkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _signInFormkey = GlobalKey<FormState>();
 
   final TextEditingController _matricNumberController = TextEditingController();
   final TextEditingController _passWordController = TextEditingController();
@@ -39,10 +39,10 @@ class _SignInState extends State<SignIn> {
             children: [
               Column(
                 children: [
-                  Row(
+                  const Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       // Text("Sign In",
                       //         style:textStyle(
                       //       fontSize: 24.0,
@@ -64,10 +64,10 @@ class _SignInState extends State<SignIn> {
                       Row(
                         children: [
                           Text("Sign In",
-                              style: textStyle(
+                              style: textStyle.copyWith(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.w700,
-                              )),
+                              ))
                         ],
                       ),
                       const SizedBox(
@@ -97,7 +97,7 @@ class _SignInState extends State<SignIn> {
                                       _showPassword = !_showPassword;
                                     });
                                   },
-                                  child: Container(
+                                  child: SizedBox(
                                     width: 20.0,
                                     child: Image.asset(
                                       _showPassword
@@ -116,16 +116,15 @@ class _SignInState extends State<SignIn> {
                               children: [
                                 SizedBox(
                                   child: InkWell(
-                                    onTap: () => nextPage(
-                                        context, (context) => ForgetPassword()),
-                                    child: Text(
-                                      "Forgot Password?",
-                                      style: textStyle(
+                                    onTap: () => nextPage(context,
+                                        (context) => const ForgetPassword()),
+                                    child: Text("Forgot Password?",
+                                        style: textStyle.copyWith(
                                           decoration: TextDecoration.underline,
                                           color: const Color(0xff114B5F),
                                           fontSize: 14.0,
-                                          fontWeight: FontWeight.w400),
-                                    ),
+                                          fontWeight: FontWeight.w400,
+                                        )),
                                   ),
                                 )
                               ],
@@ -157,7 +156,7 @@ class _SignInState extends State<SignIn> {
                               children: [
                                 Text(
                                   "Or",
-                                  style: textStyle(
+                                  style: textStyle.copyWith(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       color: const Color.fromRGBO(
@@ -179,7 +178,7 @@ class _SignInState extends State<SignIn> {
                                         Text(
                                           "Do not have an account? ",
                                           textAlign: TextAlign.center,
-                                          style: textStyle(
+                                          style: textStyle.copyWith(
                                               color: textColor,
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400),
@@ -188,16 +187,15 @@ class _SignInState extends State<SignIn> {
                                           width: 2.0,
                                         ),
                                         InkWell(
-                                          onTap: () => nextPage(
-                                              context, (context) => SignUp()),
-                                          child: Text(
-                                            "Sign up",
-                                            textAlign: TextAlign.center,
-                                            style: textStyle(
+                                          onTap: () => nextPage(context,
+                                              (context) => const SignUp()),
+                                          child: Text("Sign up",
+                                              textAlign: TextAlign.center,
+                                              style: textStyle.copyWith(
                                                 color: primaryColor,
                                                 fontSize: 14,
-                                                fontWeight: FontWeight.w700),
-                                          ),
+                                                fontWeight: FontWeight.w700,
+                                              )),
                                         ),
                                       ],
                                     ),
@@ -221,7 +219,7 @@ class _SignInState extends State<SignIn> {
   }
 
   signInWithMatricNumber(context, matric, pass) async {
-    final _pref = await SharedPreferences.getInstance();
+    final pref = await SharedPreferences.getInstance();
     setState(() {
       _loading = true;
     });
@@ -237,14 +235,14 @@ class _SignInState extends State<SignIn> {
         });
         print(value.docs);
         final data = value.docs;
-        if (data.length != 0) {
+        if (data.isNotEmpty) {
           final user = data[0].data();
           print(user);
-          _pref.setString("token", user['userId']);
-          _pref.setString("email", user['email']);
+          pref.setString("token", user['userId']);
+          pref.setString("email", user['email']);
 
           defaultSnackyBar(context, "login successfull", successColor);
-          nextPageNoPop(context, (context) => Dashboard());
+          nextPageNoPop(context, (context) => const Dashboard());
         } else {
           defaultSnackyBar(context, "User not found", dangerColor);
         }
@@ -263,8 +261,8 @@ class _SignInState extends State<SignIn> {
   }
 
   signInAction(context) async {
-    final _pref = await SharedPreferences.getInstance();
-    final token = _pref.getString("token");
+    final pref = await SharedPreferences.getInstance();
+    final token = pref.getString("token");
     setState(() {
       _loading = true;
     });
@@ -279,11 +277,11 @@ class _SignInState extends State<SignIn> {
         _loading = false;
       });
       print(credential.user!.uid);
-      _pref.setString("token", credential.user!.uid);
-      _pref.setString("email", credential.user!.email!);
+      pref.setString("token", credential.user!.uid);
+      pref.setString("email", credential.user!.email!);
 
       defaultSnackyBar(context, "login successfull", successColor);
-      nextPageNoPop(context, (context) => Dashboard());
+      nextPageNoPop(context, (context) => const Dashboard());
     } on FirebaseAuthException catch (e) {
       setState(() {
         _loading = false;

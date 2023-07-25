@@ -5,13 +5,13 @@ import 'package:elib/helpers/loaders.dart';
 import 'package:elib/helpers/navigators.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
 import 'package:elib/helpers/util_helpers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:elib/helpers/page_layout/page_layout.dart';
 import 'package:flutter/material.dart';
 
 class CourseList extends StatefulWidget {
   final program, level, semester, courseName;
-  CourseList({this.level, this.program, this.semester, this.courseName});
+  const CourseList(
+      {super.key, this.level, this.program, this.semester, this.courseName});
   @override
   State<CourseList> createState() => _CourseListState();
 }
@@ -28,7 +28,7 @@ class _CourseListState extends State<CourseList> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10.0,
             ),
             Expanded(
@@ -48,7 +48,7 @@ class _CourseListState extends State<CourseList> {
                     }
                     if (snapshot.hasError) {
                       print("${snapshot.error}");
-                      return ErrorPageWidget();
+                      return const ErrorPageWidget();
                     }
                     final data = snapshot.data;
                     print("courses");
@@ -56,11 +56,11 @@ class _CourseListState extends State<CourseList> {
                     print(data.docs);
                     final courses = data.docs ?? [];
                     return courses.length <= 0
-                        ? Center(
+                        ? const Center(
                             child: Text("course not found."),
                           )
                         : ListView.builder(
-                            padding: EdgeInsets.all(0),
+                            padding: const EdgeInsets.all(0),
                             itemCount: courses.length,
                             itemBuilder: (BuildContext context, i) {
                               final dataa = courses[i].data();
@@ -73,8 +73,8 @@ class _CourseListState extends State<CourseList> {
                                               data: dataa,
                                             )),
                                     child: ListTile(
-                                      leading: Icon(Icons.local_library),
-                                      contentPadding: EdgeInsets.all(0),
+                                      leading: const Icon(Icons.local_library),
+                                      contentPadding: const EdgeInsets.all(0),
                                       title: Text("${dataa['title']}"),
                                       subtitle: Column(
                                         crossAxisAlignment:
@@ -95,9 +95,8 @@ class _CourseListState extends State<CourseList> {
                                               Expanded(
                                                   child: Text(
                                                 "${dataa['department']}",
-                                                style:textStyle(
-                                                  fontSize:12
-                                                ),
+                                                style: textStyle.copyWith(
+                                                    fontSize: 12),
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                               )),
@@ -107,7 +106,7 @@ class _CourseListState extends State<CourseList> {
                                       ),
                                     ),
                                   ),
-                                  Divider()
+                                  const Divider()
                                 ],
                               );
                             });

@@ -1,31 +1,28 @@
+import 'package:elib/helpers/page_layout/text_formating.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:elib/feature/dashboard/screens/dashboard.dart';
-import 'package:elib/feature/onboarding/screens/sign_up/sign_up.dart';
-import 'package:elib/feature/onboarding/screens/sign_with_google/login_with_google.dart';
 import 'package:elib/helpers/colors.dart';
 import 'package:elib/helpers/components/app_icon.dart';
 import 'package:elib/helpers/components/button.dart';
 import 'package:elib/helpers/components/email_input.dart';
-import 'package:elib/helpers/components/input_field.dart';
-import 'package:elib/helpers/navigators.dart';
 import 'package:elib/helpers/page_layout/page_layout.dart';
-import 'package:elib/helpers/page_layout/text_formating.dart';
 import 'package:elib/helpers/snakbars.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ForgetPassword extends StatefulWidget {
+  const ForgetPassword({super.key});
+
   @override
   _ForgetPasswordState createState() => _ForgetPasswordState();
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
-  GlobalKey<FormState> _ForgetPasswordFormkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _ForgetPasswordFormkey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passWordController = TextEditingController();
 
-  bool _showPassword = true;
+  final bool _showPassword = true;
   bool _loading = false;
 
   @override
@@ -37,10 +34,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             children: [
               Column(
                 children: [
-                  Row(
+                  const Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       // Text("Sign In",
                       //         style:textStyle(
                       //       fontSize: 24.0,
@@ -62,7 +59,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       Row(
                         children: [
                           Text("Forget Password",
-                              style: textStyle(
+                              style: textStyle.copyWith(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.w700,
                               )),
@@ -113,8 +110,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   }
 
   ForgetPasswordAction(context) async {
-    final _pref = await SharedPreferences.getInstance();
-    final token = _pref.getString("token");
+    final pref = await SharedPreferences.getInstance();
+    final token = pref.getString("token");
     setState(() {
       _loading = true;
     });

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:elib/helpers/colors.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
 
@@ -14,8 +13,9 @@ class AppButton extends StatefulWidget {
   final Color borderColor;
   final bool allCaps, transparent;
 
-  AppButton(
-      {this.onPress,
+  const AppButton(
+      {super.key,
+      this.onPress,
       this.title,
       this.loading = false,
       this.width = 100.0,
@@ -41,7 +41,7 @@ class _AppButtonState extends State<AppButton> {
         InkWell(
           onTap: widget.loading ? null : widget.onPress,
           child: Container(
-            width: widget.width == null ? width * 0.8 : widget.width,
+            width: widget.width ?? width * 0.8,
             height: widget.height,
             decoration: BoxDecoration(
                 color: widget.color,
@@ -56,9 +56,9 @@ class _AppButtonState extends State<AppButton> {
             child: TextButton(
               onPressed: null,
               child: widget.loading
-                  ? Row(
+                  ? const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         SizedBox(
                           width: 28.0,
                           height: 28.0,
@@ -73,13 +73,12 @@ class _AppButtonState extends State<AppButton> {
                       child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "${widget.title}",
-                          style: textStyle(
+                        Text("${widget.title}",
+                            style: textStyle.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
-                              color: widget.buttonTextColor),
-                        ),
+                              color: widget.buttonTextColor,
+                            )),
                       ],
                     )),
             ),

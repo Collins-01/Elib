@@ -15,7 +15,8 @@ class TelephoneInput extends StatefulWidget {
   bool readOnly;
 
   TelephoneInput(
-      {this.hintText,
+      {super.key,
+      this.hintText,
       this.title,
       this.titleFontSize = 14.0,
       this.titleFontWeight = FontWeight.w400,
@@ -40,13 +41,12 @@ class _TelephoneInputState extends State<TelephoneInput> {
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.title!,
-                      style: textStyle(
+                    Text(widget.title!,
+                        style: textStyle.copyWith(
                           color: textColor,
                           fontSize: widget.titleFontSize,
-                          fontWeight: widget.titleFontWeight),
-                    ),
+                          fontWeight: widget.titleFontWeight,
+                        )),
                     SizedBox(
                       height: widget.titleSpacing,
                     ),
@@ -62,13 +62,14 @@ class _TelephoneInputState extends State<TelephoneInput> {
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
               ],
-              style: textStyle(color: textColor),
+              style: textStyle.copyWith(color: textColor),
               decoration: secondaryDecoration.copyWith(
                 hintText: widget.hintText,
-                hintStyle: textStyle(
-                    color: const Color(0xff818181),
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w400),
+                hintStyle: textStyle.copyWith(
+                  color: const Color(0xff818181),
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w400,
+                ),
                 fillColor: inputFieldBoderColorBg,
                 isDense: true,
                 contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
@@ -86,8 +87,8 @@ class _TelephoneInputState extends State<TelephoneInput> {
 
   String? validateMobile(String? value) {
     String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-    RegExp regExp = new RegExp(patttern);
-    if (value!.length == 0) {
+    RegExp regExp = RegExp(patttern);
+    if (value!.isEmpty) {
       return '*Please enter mobile number';
     } else if (!regExp.hasMatch(value)) {
       return '*Please enter valid mobile number';

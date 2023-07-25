@@ -1,15 +1,15 @@
 import 'package:elib/feature/courses/screens/search_course.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:elib/helpers/page_layout/text_formating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:elib/feature/notice/screens/notice.dart';
-import 'package:elib/feature/courses/screens/courses.dart';
 import 'package:elib/feature/dashboard/screens/home.dart';
 import 'package:elib/feature/settings/screens/settings.dart';
 import 'package:elib/helpers/colors.dart';
-import 'package:elib/helpers/page_layout/text_formating.dart';
 
 class Dashboard extends StatefulWidget {
+  const Dashboard({super.key});
+
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -18,12 +18,13 @@ class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
 
   List<Widget> currentRender = [
-    Home(),
-    SearchCourse(),
-    Blog(),
+    const Home(),
+    const SearchCourse(),
+    const Blog(),
     Settings(),
   ];
 
+  @override
   Widget build(
     BuildContext context,
   ) {
@@ -31,11 +32,11 @@ class _DashboardState extends State<Dashboard> {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-    Color fadeGrey = Color(0xffC1C9C6);
+    Color fadeGrey = const Color(0xffC1C9C6);
 
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Color(0xFFF8F8F8),
+          backgroundColor: const Color(0xFFF8F8F8),
           currentIndex: _currentIndex,
           elevation: 5,
           onTap: (value) {
@@ -45,8 +46,8 @@ class _DashboardState extends State<Dashboard> {
           },
           unselectedItemColor: Colors.grey,
           selectedItemColor: textColor,
-          unselectedLabelStyle: textStyle(fontSize: 10.0),
-          selectedLabelStyle: textStyle(fontSize: 10.0),
+          unselectedLabelStyle: textStyle.copyWith(fontSize: 10.0),
+          selectedLabelStyle: textStyle.copyWith(fontSize: 10.0),
           showUnselectedLabels: true,
           items: [
             BottomNavigationBarItem(
@@ -77,7 +78,6 @@ class _DashboardState extends State<Dashboard> {
                   // color: _currentIndex == 1 ? primaryColor : fadeGrey,
                 ),
                 label: 'Settings'),
-
           ],
         ),
         body: Container(

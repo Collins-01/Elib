@@ -14,7 +14,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class OpenPdf extends StatefulWidget {
   final urlLink, title;
-  OpenPdf({this.urlLink, this.title});
+  const OpenPdf({super.key, this.urlLink, this.title});
   @override
   _OpenPdfState createState() => _OpenPdfState();
 }
@@ -105,88 +105,85 @@ class _OpenPdfState extends State<OpenPdf> {
   Widget build(BuildContext context) {
     return PageLayout(
       // home: Scaffold(
-        title:widget.title,
-        appBarActions: [
-          TextButton(onPressed: null, child:Text(""))
-        ],
-        // appBar: AppBar(
-        //   title: Text('${widget.title}'),
-        //   backgroundColor: primaryColor,
-        // ),
-        // body: Center(child: Builder(
-        child: Center(child: Builder(
-          builder: (BuildContext context) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                // TextButton(
-                //   child: Text("Open PDF"),
-                //   onPressed: () {
-                //     if (pathPDF.isNotEmpty) {
-                //       Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //           builder: (context) => PDFScreen(path: pathPDF),
-                //         ),
-                //       );
-                //     }
-                //   },
-                // ),
-                // TextButton(
-                //   child: Text("Open Landscape PDF"),
-                //   onPressed: () {
-                //     if (landscapePathPdf.isNotEmpty) {
-                //       Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //           builder: (context) =>
-                //               PDFScreen(path: landscapePathPdf),
-                //         ),
-                //       );
-                //     }
-                //   },
-                // ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: AppButton(
-                    borderColor: notReadyToOpen ? Colors.grey : primaryColor,
-                    color: notReadyToOpen ? Colors.grey : primaryColor,
-                    loading: notReadyToOpen,
-                    title: "Open PDF",
-                    onPress: notReadyToOpen
-                        ? null
-                        : () {
-                            if (remotePDFpath.isNotEmpty) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      PDFScreen(path: remotePDFpath),
-                                ),
-                              );
-                            }
-                          },
-                  ),
+      title: widget.title,
+      appBarActions: const [TextButton(onPressed: null, child: Text(""))],
+      // appBar: AppBar(
+      //   title: Text('${widget.title}'),
+      //   backgroundColor: primaryColor,
+      // ),
+      // body: Center(child: Builder(
+      child: Center(child: Builder(
+        builder: (BuildContext context) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              // TextButton(
+              //   child: Text("Open PDF"),
+              //   onPressed: () {
+              //     if (pathPDF.isNotEmpty) {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) => PDFScreen(path: pathPDF),
+              //         ),
+              //       );
+              //     }
+              //   },
+              // ),
+              // TextButton(
+              //   child: Text("Open Landscape PDF"),
+              //   onPressed: () {
+              //     if (landscapePathPdf.isNotEmpty) {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) =>
+              //               PDFScreen(path: landscapePathPdf),
+              //         ),
+              //       );
+              //     }
+              //   },
+              // ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: AppButton(
+                  borderColor: notReadyToOpen ? Colors.grey : primaryColor,
+                  color: notReadyToOpen ? Colors.grey : primaryColor,
+                  loading: notReadyToOpen,
+                  title: "Open PDF",
+                  onPress: notReadyToOpen
+                      ? null
+                      : () {
+                          if (remotePDFpath.isNotEmpty) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    PDFScreen(path: remotePDFpath),
+                              ),
+                            );
+                          }
+                        },
                 ),
-                // TextButton(
-                //   child: Text("Open Corrupted PDF"),
-                //   onPressed: () {
-                //     if (pathPDF.isNotEmpty) {
-                //       Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //           builder: (context) =>
-                //               PDFScreen(path: corruptedPathPDF),
-                //         ),
-                //       );
-                //     }
-                //   },
-                // )
-              ],
-            );
-          },
-        )),
-      
+              ),
+              // TextButton(
+              //   child: Text("Open Corrupted PDF"),
+              //   onPressed: () {
+              //     if (pathPDF.isNotEmpty) {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) =>
+              //               PDFScreen(path: corruptedPathPDF),
+              //         ),
+              //       );
+              //     }
+              //   },
+              // )
+            ],
+          );
+        },
+      )),
     );
   }
 }
@@ -194,8 +191,9 @@ class _OpenPdfState extends State<OpenPdf> {
 class PDFScreen extends StatefulWidget {
   final String? path;
 
-  PDFScreen({Key? key, this.path}) : super(key: key);
+  const PDFScreen({Key? key, this.path}) : super(key: key);
 
+  @override
   _PDFScreenState createState() => _PDFScreenState();
 }
 
@@ -211,19 +209,17 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Document"),
-        backgroundColor:primaryColor,
-       
+        title: const Text("Document"),
+        backgroundColor: primaryColor,
       ),
       body: Column(
-        crossAxisAlignment:CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(mainAxisAlignment:MainAxisAlignment.end,
-              children: [
-                Text("${currentPage}/${pages}")
-              ],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [Text("$currentPage/$pages")],
             ),
           ),
           Expanded(
@@ -232,7 +228,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
                 PDFView(
                   filePath: widget.path,
                   enableSwipe: true,
-                  swipeHorizontal:false,
+                  swipeHorizontal: false,
                   autoSpacing: false,
                   pageFling: true,
                   pageSnap: true,
@@ -240,9 +236,9 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
                   fitPolicy: FitPolicy.BOTH,
                   preventLinkNavigation:
                       false, // if set to true the link is handled in flutter
-                  onRender: (_pages) {
+                  onRender: (pages) {
                     setState(() {
-                      pages = _pages;
+                      pages = pages;
                       isReady = true;
                     });
                   },
@@ -273,7 +269,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
                 ),
                 errorMessage.isEmpty
                     ? !isReady
-                        ? Center(
+                        ? const Center(
                             child: CircularProgressIndicator(),
                           )
                         : Container()
@@ -290,9 +286,12 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
         builder: (context, AsyncSnapshot<PDFViewController> snapshot) {
           if (snapshot.hasData) {
             return FloatingActionButton.extended(
-              foregroundColor:primaryColor,
+              foregroundColor: primaryColor,
               backgroundColor: primaryColor,
-              label: Text("Go to ${pages! ~/ 2}",style:textStyle(color:Colors.white),),
+              label: Text(
+                "Go to ${pages! ~/ 2}",
+                style: textStyle.copyWith(color: Colors.white),
+              ),
               onPressed: () async {
                 await snapshot.data!.setPage(pages! ~/ 2);
               },

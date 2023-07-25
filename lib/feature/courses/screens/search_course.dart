@@ -1,19 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elib/feature/courses/screens/courses.dart';
 import 'package:elib/feature/courses/screens/view_all.dart';
 import 'package:elib/helpers/colors.dart';
 import 'package:elib/helpers/components/button.dart';
 import 'package:elib/helpers/components/dropdown_fields.dart';
-import 'package:elib/helpers/components/input_field.dart';
 import 'package:elib/helpers/navigators.dart';
 import 'package:elib/helpers/page_layout/page_layout.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
 import 'package:elib/helpers/snakbars.dart';
-import 'package:elib/helpers/util_helpers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class SearchCourse extends StatefulWidget {
   const SearchCourse({Key? key}) : super(key: key);
@@ -23,7 +17,7 @@ class SearchCourse extends StatefulWidget {
 }
 
 class _SearchCourseState extends State<SearchCourse> {
-  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final TextEditingController _searchTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -35,10 +29,11 @@ class _SearchCourseState extends State<SearchCourse> {
       appBarElevation: 2.0,
       appBarActions: [
         TextButton(
-            onPressed: () => nextPage(context, (context) => ViewAllCourses()),
+            onPressed: () =>
+                nextPage(context, (context) => const ViewAllCourses()),
             child: Text(
               "View all",
-              style: textStyle(color: Colors.white),
+              style: textStyle.copyWith(color: Colors.white),
             ))
       ],
       // child:Column(
@@ -66,7 +61,7 @@ class _SearchCourseState extends State<SearchCourse> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 50.0,
             ),
             DropdownField(
@@ -87,7 +82,7 @@ class _SearchCourseState extends State<SearchCourse> {
                 });
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 10.0,
             ),
             program != 'part-time'
@@ -96,7 +91,7 @@ class _SearchCourseState extends State<SearchCourse> {
                     titleSpacing: 7.0,
                     titleFontWeight: FontWeight.w500,
                     title: "Level",
-                    items: [
+                    items: const [
                       'Pick a level',
                       'hnd1',
                       'hnd2',
@@ -113,7 +108,7 @@ class _SearchCourseState extends State<SearchCourse> {
                     titleSpacing: 7.0,
                     titleFontWeight: FontWeight.w500,
                     title: "Level",
-                    items: [
+                    items: const [
                       'Pick a level',
                       'hnd1',
                       'hnd2',
@@ -126,7 +121,7 @@ class _SearchCourseState extends State<SearchCourse> {
                       });
                     },
                   ),
-            SizedBox(
+            const SizedBox(
               height: 10.0,
             ),
             DropdownField(
@@ -146,7 +141,7 @@ class _SearchCourseState extends State<SearchCourse> {
                 });
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 60.0,
             ),
             AppButton(
@@ -180,7 +175,7 @@ class _SearchCourseState extends State<SearchCourse> {
     if (semester == 'Pick a semester' ||
         program == 'Pick a program' ||
         level == 'Pick a level') {
-      defaultSnackyBar(context,"All fields are required.", dangerColor);
+      defaultSnackyBar(context, "All fields are required.", dangerColor);
     } else {
       nextPage(
           context,

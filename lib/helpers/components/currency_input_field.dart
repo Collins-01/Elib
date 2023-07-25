@@ -20,7 +20,8 @@ class CurencyInputField extends StatefulWidget {
   final double titleSpacing;
 
   CurencyInputField(
-      {this.hintText,
+      {super.key,
+      this.hintText,
       this.title = "",
       this.titleFontSize = 17.0,
       this.titleFontWeight = FontWeight.w500,
@@ -56,25 +57,24 @@ class _InputFieldState extends State<CurencyInputField> {
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.title,
-                      style: textStyle(
+                    Text(widget.title,
+                        style: textStyle.copyWith(
                           color: textColor,
                           fontSize: widget.titleFontSize,
-                          fontWeight: widget.titleFontWeight),
-                    ),
+                          fontWeight: widget.titleFontWeight,
+                        )),
                     SizedBox(
                       height: widget.titleSpacing,
                     ),
                   ],
                 )
-              : Text(""),
+              : const Text(""),
           Container(
             // height: 60,
             // color: inputFieldBoderColor,
             child: TextFormField(
-              style:
-                  textStyle(color: widget.readOnly ? Colors.grey : textColor),
+              style: textStyle.copyWith(
+                  color: widget.readOnly ? Colors.grey : textColor),
               maxLines: widget.maxLine,
               readOnly: widget.readOnly,
               obscureText: widget.passwordInput,
@@ -91,10 +91,9 @@ class _InputFieldState extends State<CurencyInputField> {
               decoration: secondaryDecoration.copyWith(
                 // prefixText: widget.currencyInput ? "NGN" : "",
                 hintText: widget.hintText,
-                hintStyle: TextStyle(
-                    color: const Color.fromRGBO(74, 74, 74, 0.15),
-                    fontSize: 12.0),
-                prefix: Container(
+                hintStyle: const TextStyle(
+                    color: Color.fromRGBO(74, 74, 74, 0.15), fontSize: 12.0),
+                prefix: SizedBox(
                   height: 10.0,
                   // color:Colors.red,
                   child: SvgPicture.asset(
@@ -103,10 +102,10 @@ class _InputFieldState extends State<CurencyInputField> {
                     width: 9.0,
                   ),
                 ),
-                suffix: widget.suffix ?? null,
+                suffix: widget.suffix,
                 fillColor: inputFieldBoderColor,
                 isDense: true,
-                contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0)),
               ),
@@ -116,7 +115,7 @@ class _InputFieldState extends State<CurencyInputField> {
                 widget.controller!.text = string.trim();
 
                 if (widget.currencyInput) {
-                  string = '${_formatNumber(string.replaceAll(',', ''))}';
+                  string = _formatNumber(string.replaceAll(',', ''));
                   widget.controller!.value = TextEditingValue(
                     text: string,
                     selection: TextSelection.collapsed(offset: string.length),

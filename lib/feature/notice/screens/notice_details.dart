@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:elib/helpers/colors.dart';
 import 'package:elib/helpers/components/button.dart';
 import 'package:elib/helpers/components/flexible_text.dart';
@@ -14,7 +11,6 @@ import 'package:elib/helpers/util_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'package:path_provider/path_provider.dart';
 // import 'package:permission_handler/permission_handler.dart';
 
 class NoticeDetails extends StatefulWidget {
@@ -25,9 +21,6 @@ class NoticeDetails extends StatefulWidget {
 }
 
 class _NoticeDetailsState extends State<NoticeDetails> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return PageLayout(
@@ -36,7 +29,7 @@ class _NoticeDetailsState extends State<NoticeDetails> {
       leadingNavIconColor: Colors.white,
       appBarElevation: 0.9,
       scaffoldPadding: 0,
-      appBarActions: [TextButton(onPressed: null, child: Text(""))],
+      appBarActions: const [TextButton(onPressed: null, child: Text(""))],
       child: Stack(
         children: [
           SingleChildScrollView(
@@ -52,7 +45,7 @@ class _NoticeDetailsState extends State<NoticeDetails> {
                     ))
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 Padding(
@@ -62,38 +55,36 @@ class _NoticeDetailsState extends State<NoticeDetails> {
                       // Icon(Icons.forum),
                       Expanded(
                         child: FlexibleText(
-                          text: "${widget.data['title']}",
-                          maxLine: 2,
-                          style: textStyle(
+                            text: "${widget.data['title']}",
+                            maxLine: 2,
+                            style: textStyle.copyWith(
                               color: textColor,
                               fontSize: 36,
-                              fontWeight: FontWeight.w700),
-                        ),
+                              fontWeight: FontWeight.w700,
+                            )),
                       )
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
                   child: Divider(),
                 ),
-                 Padding(
-                   padding: const EdgeInsets.all(16.0),
-                   child: Row(
-                    mainAxisAlignment:MainAxisAlignment.end,
-                      children: [
-                         Text(
-                            "posted on: ${widget.data['createdAt'] }",
-                            style: textStyle(
-                              color: textColor,
-                              fontWeight: FontWeight.w300,
-                              fontSize: 12.0
-                          ),
-                        )
-                      ],
-                    ),
-                 ),
-                SizedBox(
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text("posted on: ${widget.data['createdAt']}",
+                          style: textStyle.copyWith(
+                            color: textColor,
+                            fontWeight: FontWeight.w300,
+                            fontSize: 12.0,
+                          ))
+                    ],
+                  ),
+                ),
+                const SizedBox(
                   height: 10.0,
                 ),
                 Padding(
@@ -101,19 +92,17 @@ class _NoticeDetailsState extends State<NoticeDetails> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text(
-                          "${widget.data['message']}",
-                          textAlign: TextAlign.justify,
-                          style: textStyle(
-                              color: textColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                        ),
+                        child: Text("${widget.data['message']}",
+                            textAlign: TextAlign.justify,
+                            style: textStyle.copyWith(
+                                color: textColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400)),
                       )
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40.0,
                 ),
                 Padding(
@@ -123,24 +112,25 @@ class _NoticeDetailsState extends State<NoticeDetails> {
                     children: [
                       Text(
                         "Comments",
-                        style: textStyle(
-                            color: textColor,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w700),
+                        style: textStyle.copyWith(
+                          color: textColor,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                       IconButton(
                           onPressed: () {
                             setState(() {});
                           },
-                          icon: Icon(Icons.refresh))
+                          icon: const Icon(Icons.refresh))
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5.0,
                 ),
                 Container(
-                  color: Color(0xffeeeeee),
+                  color: const Color(0xffeeeeee),
                   height: 400.0,
                   child: FutureBuilder(
                       future: firestore
@@ -155,7 +145,7 @@ class _NoticeDetailsState extends State<NoticeDetails> {
                         }
                         if (snapshot.hasError) {
                           print("${snapshot.error}");
-                          return ErrorPageWidget();
+                          return const ErrorPageWidget();
                         }
                         final data = snapshot.data;
                         print("comments");
@@ -164,11 +154,11 @@ class _NoticeDetailsState extends State<NoticeDetails> {
                         final comment = data.docs ?? [];
 
                         return comment.length <= 0
-                            ? Center(
+                            ? const Center(
                                 child: Text("No comment yet."),
                               )
                             : ListView.builder(
-                                padding: EdgeInsets.all(0),
+                                padding: const EdgeInsets.all(0),
                                 itemCount: comment.length,
                                 itemBuilder: (BuildContext context, i) {
                                   final dataa = comment[i].data();
@@ -177,20 +167,21 @@ class _NoticeDetailsState extends State<NoticeDetails> {
                                     children: [
                                       ListTile(
                                         leading: CircleAvatar(
-                                          backgroundColor: Color(0xff2e7d32),
+                                          backgroundColor:
+                                              const Color(0xff2e7d32),
                                           radius: 20.0,
                                           child: Text(
                                             "${dataa['userEmail'][0].toUpperCase()}",
-                                            style: textStyle(
+                                            style: textStyle.copyWith(
                                                 fontSize: 16.0,
                                                 fontWeight: FontWeight.w700),
                                           ),
                                         ),
-                                        contentPadding: EdgeInsets.all(8),
+                                        contentPadding: const EdgeInsets.all(8),
                                         title: Text("${dataa['userEmail']}"),
                                         subtitle: Text("${dataa['comment']}"),
                                       ),
-                                      Divider()
+                                      const Divider()
                                     ],
                                   );
                                 },
@@ -212,11 +203,11 @@ class _NoticeDetailsState extends State<NoticeDetails> {
                     FloatingActionButton(
                       onPressed: () =>
                           {print("dskjds"), commentOnNotice(context)},
-                      child: Icon(Icons.insert_comment),
+                      child: const Icon(Icons.insert_comment),
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50.0,
                 )
               ],
@@ -235,7 +226,7 @@ class _NoticeDetailsState extends State<NoticeDetails> {
           borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
         ),
         builder: (BuildContext context) {
-          return Container(
+          return SizedBox(
               height: 85.h,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -252,11 +243,11 @@ class _NoticeDetailsState extends State<NoticeDetails> {
                           children: [
                             TextButton(
                                 onPressed: () => Navigator.pop(context),
-                                child: Text("Cancel")),
+                                child: const Text("Cancel")),
                           ],
                         ),
                       ),
-                      Divider(),
+                      const Divider(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: PostComment(
@@ -272,15 +263,11 @@ class _NoticeDetailsState extends State<NoticeDetails> {
               ));
         });
   }
-
-
-  
-
 }
 
 class ImageContainer extends StatelessWidget {
   final url, borderRadius;
-  ImageContainer({this.url = "", this.borderRadius = 5});
+  const ImageContainer({super.key, this.url = "", this.borderRadius = 5});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -288,7 +275,7 @@ class ImageContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey,
         image: DecorationImage(
-          image: NetworkImage("${url}"),
+          image: NetworkImage("$url"),
           fit: BoxFit.cover,
         ),
         borderRadius: BorderRadius.circular(borderRadius),
@@ -306,7 +293,7 @@ class PostComment extends StatefulWidget {
 }
 
 class _PostCommentState extends State<PostComment> {
-  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   final TextEditingController _commentController = TextEditingController();
 
@@ -324,7 +311,7 @@ class _PostCommentState extends State<PostComment> {
               hintText: "comment",
               controller: _commentController,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10.0,
             ),
             Row(
@@ -354,8 +341,8 @@ class _PostCommentState extends State<PostComment> {
     setState(() {
       _loading = true;
     });
-    final _pref = await SharedPreferences.getInstance();
-    final email = _pref.getString("email");
+    final pref = await SharedPreferences.getInstance();
+    final email = pref.getString("email");
 
     final data = {
       "userEmail": email,

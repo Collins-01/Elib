@@ -37,13 +37,11 @@ class _LoginWithGoogleState extends State<LoginWithGoogle> {
             const SizedBox(
               width: 10,
             ),
-            Text(
-              "Continue with Google",
-              style: textStyle(
-                  color: const Color(0xff473E35),
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500),
-            ),
+            Text("Continue with Google",
+                style: textStyle.copyWith(
+                    color: const Color(0xff473E35),
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w500))
           ],
         ),
       ),

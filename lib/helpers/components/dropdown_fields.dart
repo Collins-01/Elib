@@ -12,7 +12,7 @@ class DropdownField extends StatefulWidget {
   final titleFontWeight;
   final double titleSpacing;
 
-  DropdownField(
+  const DropdownField(
       {Key? key,
       this.title,
       required this.items,
@@ -50,15 +50,14 @@ class _DropdownFieldState extends State<DropdownField> {
                 ? null
                 : Row(children: [
                     Expanded(
-                      child: Text(
-                        widget.title!,
-                        overflow: TextOverflow.fade,
-                        maxLines: 1,
-                        style: textStyle(
+                      child: Text(widget.title!,
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          style: textStyle.copyWith(
                             color: textColor,
                             fontSize: widget.titleFontSize,
-                            fontWeight: widget.titleFontWeight),
-                      ),
+                            fontWeight: widget.titleFontWeight,
+                          )),
                     ),
                   ]),
           ),
@@ -72,16 +71,17 @@ class _DropdownFieldState extends State<DropdownField> {
                 // border: Border.all(color: Colors.transparent)
               ),
               child: DropdownButtonFormField(
-                style: textStyle(
-                    color: textColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.0),
+                style: textStyle.copyWith(
+                  color: textColor,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14.0,
+                ),
                 icon: const Icon(Icons.expand_more,
                     color: Color.fromRGBO(74, 74, 74, 0.4)),
                 hint: const Text("placeholder"),
                 decoration: secondaryDecoration.copyWith(
                   hintText: widget.title,
-                  hintStyle: textStyle(color: textColor, fontSize: 14),
+                  hintStyle: textStyle.copyWith(color: textColor, fontSize: 14),
                   fillColor: inputFieldBoderColorBg,
                   isDense: true,
                   contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 17),
@@ -110,13 +110,11 @@ class _DropdownFieldState extends State<DropdownField> {
 
   DropdownMenuItem<String> getDropdownMenu(e) {
     return DropdownMenuItem(
-      child: Text(
-        e,
-        style: textStyle(
-          color: textColor,
-        ),
-      ),
       value: e,
+      child: Text(e,
+          style: textStyle.copyWith(
+            color: textColor,
+          )),
     );
   }
 }

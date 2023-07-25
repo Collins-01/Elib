@@ -16,7 +16,8 @@ class PasswordInput extends StatefulWidget {
   bool hidePassword;
 
   PasswordInput(
-      {this.hintText,
+      {super.key,
+      this.hintText,
       this.title,
       this.titleFontSize = 14.0,
       this.titleFontWeight = FontWeight.w400,
@@ -42,13 +43,12 @@ class _PasswordInputState extends State<PasswordInput> {
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.title!,
-                      style: textStyle(
+                    Text(widget.title!,
+                        style: textStyle.copyWith(
                           color: textColor,
                           fontSize: widget.titleFontSize,
-                          fontWeight: widget.titleFontWeight),
-                    ),
+                          fontWeight: widget.titleFontWeight,
+                        )),
                     SizedBox(
                       height: widget.titleSpacing,
                     ),
@@ -65,10 +65,10 @@ class _PasswordInputState extends State<PasswordInput> {
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
               ],
-              style: textStyle(color: textColor),
+              style: textStyle.copyWith(color: textColor),
               decoration: secondaryDecoration.copyWith(
                 hintText: widget.hintText,
-                hintStyle: textStyle(
+                hintStyle: textStyle.copyWith(
                     color: const Color(0xff818181),
                     fontSize: 14.0,
                     fontWeight: FontWeight.w400),
@@ -89,8 +89,8 @@ class _PasswordInputState extends State<PasswordInput> {
 
   String? validateMobile(String? value) {
     String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-    RegExp regExp = new RegExp(patttern);
-    if (value!.length == 0) {
+    RegExp regExp = RegExp(patttern);
+    if (value!.isEmpty) {
       return '*Please enter mobile number';
     } else if (!regExp.hasMatch(value)) {
       return '*Please enter valid mobile number';

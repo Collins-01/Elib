@@ -1,11 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:elib/helpers/colors.dart';
-import 'package:elib/helpers/components/button.dart';
-import 'package:elib/helpers/navigators.dart';
-import 'package:elib/helpers/page_layout/text_formating.dart';
-import 'package:elib/welcome.dart';
 import 'package:intl/intl.dart';
 
 var formatter = NumberFormat.decimalPattern('en_us');

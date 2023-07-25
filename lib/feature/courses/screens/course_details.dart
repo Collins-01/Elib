@@ -1,22 +1,12 @@
-import 'dart:io';
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:elib/feature/courses/screens/open.dart';
 import 'package:elib/feature/courses/screens/open_pdf.dart';
 import 'package:elib/helpers/colors.dart';
-import 'package:elib/helpers/loaders.dart';
 import 'package:elib/helpers/navigators.dart';
 import 'package:elib/helpers/page_layout/page_layout.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
 import 'package:elib/helpers/snakbars.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:path_provider/path_provider.dart';
 // import 'package:permission_handler/permission_handler.dart';
 
 class CourseDetails extends StatefulWidget {
@@ -41,25 +31,23 @@ class _CourseDetailsState extends State<CourseDetails> {
         // crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ListTile(
-            leading: Icon(Icons.local_library),
-            contentPadding: EdgeInsets.all(0),
-            title: Text("Title"),
+            leading: const Icon(Icons.local_library),
+            contentPadding: const EdgeInsets.all(0),
+            title: const Text("Title"),
             subtitle: Text("${widget.data['title']}"),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.local_library),
-            contentPadding: EdgeInsets.all(0),
-            title: Text("Course code "),
+            leading: const Icon(Icons.local_library),
+            contentPadding: const EdgeInsets.all(0),
+            title: const Text("Course code "),
             subtitle: Text("${widget.data['codeCode']}"),
           ),
-
-          Divider(),
-
+          const Divider(),
           ExpansionTile(
-            tilePadding: EdgeInsets.all(0),
-            leading: Icon(Icons.local_library),
-            title: Text("Course Pdf "),
+            tilePadding: const EdgeInsets.all(0),
+            leading: const Icon(Icons.local_library),
+            title: const Text("Course Pdf "),
             children: <Widget>[
               InkWell(
                 onTap: () async {
@@ -126,9 +114,9 @@ class _CourseDetailsState extends State<CourseDetails> {
                   //           title: "${widget.data['title']}",
                   //         ));
 
-                    await canLaunch(url)
-                        ? await launch(url)
-                        : throw pageToast('Could not launch $url', dangerColor);
+                  await canLaunch(url)
+                      ? await launch(url)
+                      : throw pageToast('Could not launch $url', dangerColor);
                 },
                 child: const ListTile(
                   contentPadding: EdgeInsets.all(0),
@@ -141,7 +129,7 @@ class _CourseDetailsState extends State<CourseDetails> {
               ),
             ],
           ),
-          Divider(),
+          const Divider(),
           InkWell(
             onTap: () async {
               final url = "${widget.data['curriculemPdfLink']}";
@@ -152,11 +140,11 @@ class _CourseDetailsState extends State<CourseDetails> {
               //           title: "${widget.data['title']}",
               //         ));
               nextPage(
-                      context,
-                      (context) => OpenPdf(
-                            urlLink: url,
-                            title: "${widget.data['title']}",
-                          ));
+                  context,
+                  (context) => OpenPdf(
+                        urlLink: url,
+                        title: "${widget.data['title']}",
+                      ));
             },
             child: const ListTile(
               leading: Icon(Icons.local_library),
@@ -168,38 +156,36 @@ class _CourseDetailsState extends State<CourseDetails> {
               // ),),
             ),
           ),
-          Divider(),
+          const Divider(),
           InkWell(
             onTap: () async {
               final url = "${widget.data['courseResource']}";
 
-              print("url link ${url}");
+              print("url link $url");
               nextPage(
                   context,
                   (context) => OpenFileWideget(
-                        link: "${url}",
+                        link: url,
                         title: "${widget.data['title']}",
                       ));
             },
             child: ListTile(
-              leading: Icon(Icons.local_library),
-              contentPadding: EdgeInsets.all(0),
+              leading: const Icon(Icons.local_library),
+              contentPadding: const EdgeInsets.all(0),
               title: Text(
                 "Course Resource link ",
-                style: textStyle(color: Colors.blue),
+                style: textStyle.copyWith(color: Colors.blue),
               ),
             ),
           ),
-
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.local_library),
-            contentPadding: EdgeInsets.all(0),
-            title: Text("Tutor"),
+            leading: const Icon(Icons.local_library),
+            contentPadding: const EdgeInsets.all(0),
+            title: const Text("Tutor"),
             subtitle: Text(
                 "${widget.data['authors'] == "Null" ? '' : widget.data['authors']}"),
           ),
-       
         ],
       ),
     );

@@ -14,7 +14,8 @@ class EmailInputField extends StatefulWidget {
   bool readOnly;
 
   EmailInputField(
-      {this.hintText = "",
+      {super.key,
+      this.hintText = "",
       this.title = "",
       this.titleFontSize = 14.0,
       this.titleFontWeight = FontWeight.w400,
@@ -38,13 +39,12 @@ class _EmailInputFieldState extends State<EmailInputField> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.title!,
-                      style: textStyle(
+                    Text(widget.title!,
+                        style: textStyle.copyWith(
                           color: textColor,
                           fontSize: widget.titleFontSize,
-                          fontWeight: widget.titleFontWeight),
-                    ),
+                          fontWeight: widget.titleFontWeight,
+                        )),
                     SizedBox(
                       height: widget.titleSpacing,
                     ),
@@ -56,13 +56,14 @@ class _EmailInputFieldState extends State<EmailInputField> {
           ),
           TextFormField(
             readOnly: widget.readOnly,
-            style: textStyle(color: textColor),
+            style: textStyle.copyWith(color: textColor),
             decoration: secondaryDecoration.copyWith(
               hintText: widget.hintText,
-              hintStyle: textStyle(
+              hintStyle: textStyle.copyWith(
                   color: const Color(0xff818181),
                   fontSize: 14.0,
                   fontWeight: FontWeight.w400),
+
               // prefix: widget.prefix ?? null,
               // suffix: widget.suffix ?? null,
               fillColor: inputFieldBoderColorBg,

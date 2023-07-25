@@ -8,9 +8,10 @@ import 'package:elib/helpers/colors.dart';
 import 'package:elib/helpers/components/flexible_text.dart';
 import 'package:elib/helpers/page_layout/page_layout.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
-import 'package:jiffy/jiffy.dart';
 
 class Blog extends StatefulWidget {
+  const Blog({super.key});
+
   @override
   State<Blog> createState() => _BlogState();
 }
@@ -27,11 +28,13 @@ class _BlogState extends State<Blog> {
       titleTextColor: Colors.white,
 
       appBarElevation: 2.0,
-      appBarActions:[
+      appBarActions: [
         IconButton(
-          onPressed:()=>setState(() {}), 
-          icon: Icon(Icons.refresh,color:Colors.white,)
-        )
+            onPressed: () => setState(() {}),
+            icon: const Icon(
+              Icons.refresh,
+              color: Colors.white,
+            ))
       ],
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -43,12 +46,12 @@ class _BlogState extends State<Blog> {
             children: [
               Expanded(
                 child: Text(
-                  "Read articles and keep updates on the current happenings with the college. ",
-                  style: textStyle(
+                    "Read articles and keep updates on the current happenings with the college. ",
+                    style: textStyle.copyWith(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
-                      color: textColor),
-                ),
+                      color: textColor,
+                    )),
               )
             ],
           ),
@@ -63,7 +66,7 @@ class _BlogState extends State<Blog> {
                     }
                     if (snapshot.hasError) {
                       print("${snapshot.error}");
-                      return ErrorPageWidget();
+                      return const ErrorPageWidget();
                     }
                     final data = snapshot.data;
                     // print("courses");
@@ -71,7 +74,7 @@ class _BlogState extends State<Blog> {
                     // print(data.docs);
                     final courses = data.docs ?? [];
                     return ListView.builder(
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                         itemCount: courses.length,
                         itemBuilder: (BuildContext context, i) {
                           final dataa = courses[i].data();
@@ -80,7 +83,7 @@ class _BlogState extends State<Blog> {
                           return Column(
                             children: [
                               NoticeTab(data: dataa, id: courses[i].id),
-                              Divider()
+                              const Divider()
                             ],
                           );
                         });
@@ -93,14 +96,13 @@ class _BlogState extends State<Blog> {
 
 class NoticeTab extends StatelessWidget {
   final data, id;
-  NoticeTab({this.data, this.id});
+  const NoticeTab({super.key, this.data, this.id});
   @override
   Widget build(BuildContext context) {
     // var date = DateTime.fromMillisecondsSinceEpoch(data['createdAt'] * 1000);
     // var date = data['createdAt'];
     return InkWell(
       onTap: () {
-
         nextPage(
             context,
             (context) => NoticeDetails(
@@ -130,13 +132,13 @@ class NoticeTab extends StatelessWidget {
                     children: [
                       Expanded(
                         child: FlexibleText(
-                          text: "${data['title']}",
-                          maxLine: 2,
-                          style: textStyle(
+                            text: "${data['title']}",
+                            maxLine: 2,
+                            style: textStyle.copyWith(
                               color: textColor,
                               fontWeight: FontWeight.w700,
-                              fontSize: 14.0),
-                        ),
+                              fontSize: 14.0,
+                            )),
                       )
                     ],
                   ),
@@ -147,13 +149,13 @@ class NoticeTab extends StatelessWidget {
                     children: [
                       Expanded(
                         child: FlexibleText(
-                          text: "Department: ${data['department']}",
-                          maxLine: 2,
-                          style: textStyle(
+                            text: "Department: ${data['department']}",
+                            maxLine: 2,
+                            style: textStyle.copyWith(
                               color: textColor,
                               fontWeight: FontWeight.w400,
-                              fontSize: 12.0),
-                        ),
+                              fontSize: 12.0,
+                            )),
                       )
                     ],
                   ),
@@ -162,12 +164,12 @@ class NoticeTab extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          "${data['createdAt'] }",
+                          "${data['createdAt']}",
                           maxLines: 2,
-                          style: textStyle(
+                          style: textStyle.copyWith(
                             color: textColor,
                             fontWeight: FontWeight.w300,
-                            fontSize: 12.0
+                            fontSize: 12.0,
                           ),
                         ),
                       )
@@ -188,7 +190,7 @@ class NoticeTab extends StatelessWidget {
 
 class ImageContainer extends StatelessWidget {
   final url;
-  ImageContainer({this.url = ""});
+  const ImageContainer({super.key, this.url = ""});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -197,7 +199,7 @@ class ImageContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey,
         image: DecorationImage(
-          image: NetworkImage("${url}"),
+          image: NetworkImage("$url"),
           fit: BoxFit.cover,
         ),
         borderRadius: BorderRadius.circular(5),

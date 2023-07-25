@@ -51,13 +51,12 @@ class _InputFieldState extends State<InputField> {
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.title,
-                      style: textStyle(
+                    Text(widget.title,
+                        style: textStyle.copyWith(
                           color: textColor,
                           fontSize: widget.titleFontSize,
-                          fontWeight: widget.titleFontWeight),
-                    ),
+                          fontWeight: widget.titleFontWeight,
+                        )),
                     SizedBox(
                       height: widget.titleSpacing,
                     ),
@@ -66,10 +65,11 @@ class _InputFieldState extends State<InputField> {
               : const Text(""),
           SizedBox(
             child: TextFormField(
-              style: textStyle(
-                  color: widget.readOnly ? Colors.grey : textColor,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14.0),
+              style: textStyle.copyWith(
+                color: widget.readOnly ? Colors.grey : textColor,
+                fontWeight: FontWeight.w400,
+                fontSize: 14.0,
+              ),
               onChanged: widget.onChanged,
               maxLines: widget.maxLine,
 
@@ -87,10 +87,11 @@ class _InputFieldState extends State<InputField> {
               // textCapitalization: TextCapitalization.sentences,
               decoration: secondaryDecoration.copyWith(
                 hintText: widget.hintText,
-                hintStyle: textStyle(
-                    color: const Color(0xff818181),
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w400),
+                hintStyle: textStyle.copyWith(
+                  color: const Color(0xff818181),
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w400,
+                ),
                 // prefix: widget.prefix ?? null,
                 suffix: widget.suffix,
                 fillColor: inputFieldBoderColorBg,

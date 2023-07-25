@@ -39,17 +39,13 @@ class TabBarDemo extends StatelessWidget {
                   final _pref = await SharedPreferences.getInstance();
                   final uid = _pref.getString("token");
                   // print(uid);
-                  nextPage(
-                      context,
-                      (context) => Profile(
-                            uid:uid
-                          ));
+                  nextPage(context, (context) => Profile(uid: uid));
                 },
                 iconColor: textColor,
                 icon: "assets/icons/person.svg",
                 title: "Profile"),
             SettingsTab(
-                onpress: ()=>nextPage(context,(context)=>Support()),
+                onpress: () => nextPage(context, (context) => Support()),
                 iconColor: textColor,
                 icon: "assets/icons/support.svg",
                 title: "Help and support"),
@@ -98,13 +94,12 @@ class SettingsTab extends StatelessWidget {
                 width: 24,
               ),
               Expanded(
-                child: Text(
-                  title,
-                  style: textStyle(
+                child: Text(title,
+                    style: textStyle.copyWith(
                       color: iconColor,
                       fontSize: 18,
-                      fontWeight: FontWeight.w400),
-                ),
+                      fontWeight: FontWeight.w400,
+                    )),
               ),
               iconColor == dangerColor
                   ? const Text("")

@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 // import 'package:elib/features/account/services/account_services.dart';
 import 'package:elib/helpers/colors.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
 
 class PageLayout extends StatefulWidget {
-  PageLayout(
-      {this.appBarDrawerEnabled = false,
+  const PageLayout(
+      {super.key,
+      this.appBarDrawerEnabled = false,
       this.noAppBar = false,
-      this.key,
       this.child,
       this.title,
       this.titleTextColor = Colors.white,
       this.leadingNavIconColor = Colors.white,
       this.fontSize = 20,
-      this.backOnPressed = null,
+      this.backOnPressed,
       this.appBarActions,
       this.appBarColor = primaryColor,
       this.scaffoldColor = Colors.white,
@@ -31,7 +30,6 @@ class PageLayout extends StatefulWidget {
   final Function? backOnPressed;
   final Widget? child;
   final double fontSize;
-  final key;
   final bool bottomNavEnabled, navPop;
   final bool noAppBar;
   final Color scaffoldColor;
@@ -86,8 +84,8 @@ class _PageLayoutState extends State<PageLayout> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            SizedBox(
-                              height:45.0,
+                            const SizedBox(
+                              height: 45.0,
                             ),
                             Padding(
                               padding:
@@ -96,11 +94,11 @@ class _PageLayoutState extends State<PageLayout> {
                                 children: [
                                   widget.navPop
                                       ? InkWell(
-                                          child: Container(
-                                            width:30.0,
+                                          child: SizedBox(
+                                            width: 30.0,
                                             child: Icon(
                                               Icons.arrow_back_ios,
-                                              color:widget.leadingNavIconColor,
+                                              color: widget.leadingNavIconColor,
                                             ),
                                           ),
                                           onTap: () =>
@@ -116,15 +114,13 @@ class _PageLayoutState extends State<PageLayout> {
                                       child: Row(
                                     children: [
                                       Expanded(
-                                        child: Text(
-                                          '${widget.title}',
-                                          overflow:TextOverflow.ellipsis,
-                                          style: textStyle(
-                                            fontSize: widget.fontSize,
-                                            fontWeight: FontWeight.w500,
-                                            color: widget.titleTextColor,
-                                          ),
-                                        ),
+                                        child: Text('${widget.title}',
+                                            overflow: TextOverflow.ellipsis,
+                                            style: textStyle.copyWith(
+                                              fontSize: widget.fontSize,
+                                              fontWeight: FontWeight.w500,
+                                              color: widget.titleTextColor,
+                                            )),
                                       ),
                                     ],
                                   )),
@@ -157,5 +153,5 @@ class _PageLayoutState extends State<PageLayout> {
     );
   }
 
-  bool _loading = false;
+  final bool _loading = false;
 }

@@ -1,7 +1,7 @@
+import 'package:elib/helpers/page_layout/text_formating.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:elib/helpers/colors.dart';
-import 'package:elib/helpers/page_layout/text_formating.dart';
 
 Future<bool?> pageToast(message, color) {
   return Fluttertoast.showToast(
@@ -24,7 +24,7 @@ defaultSnackyBar(context, message, color) {
           '${message ?? "An error occured"}\n',
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
-          style: textStyle(fontSize: 16.0),
+          style: textStyle,
         )),
       ],
     ),

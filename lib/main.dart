@@ -28,28 +28,28 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
-        return MaterialApp(
-          title: 'eliby Tv',
-          debugShowCheckedModeBanner: false,
-          theme: elibTheme.lightTheme,
-          home: FutureBuilder(
-              future: AuthServices().checkIfAuth(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return PageLayout(
-                    noAppBar: true,
-                    navPop: false,
-                    child: Container(
-                        color: Colors.white, child: Center(child: AppIcon())),
-                  );
-                }
+      return MaterialApp(
+        title: 'eliby Tv',
+        debugShowCheckedModeBanner: false,
+        theme: elibTheme.lightTheme,
+        home: FutureBuilder(
+            future: AuthServices().checkIfAuth(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return PageLayout(
+                  noAppBar: true,
+                  navPop: false,
+                  child: Container(
+                      color: Colors.white,
+                      child: const Center(child: AppIcon())),
+                );
+              }
 
-                return snapshot.data["token"] != null
-                    ? ScreenLoader()
-                    : WelcomeOnBoardingPage();
-              }),
-        );
-      }
-    );
+              return snapshot.data["token"] != null
+                  ? const ScreenLoader()
+                  : const WelcomeOnBoardingPage();
+            }),
+      );
+    });
   }
 }

@@ -12,9 +12,8 @@ import 'package:elib/helpers/util_helpers.dart';
 import 'package:elib/welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
+// ignore: must_be_immutable
 class Profile extends StatefulWidget {
   Profile({Key? key, this.uid}) : super(key: key);
   String? uid;
@@ -36,7 +35,7 @@ class _ProfileState extends State<Profile> {
           width: 80.0,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.0),
-              color: Color(0xfff1f8e9)),
+              color: const Color(0xfff1f8e9)),
           child: TextButton(
             onPressed: () {
               showDialog(
@@ -44,31 +43,33 @@ class _ProfileState extends State<Profile> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text("Log out"),
-                      content: Text("Are you sure you want to logout?"),
+                      title: const Text("Log out"),
+                      content: const Text("Are you sure you want to logout?"),
                       actions: [
                         TextButton(
                             onPressed: () => Navigator.pop(context),
                             child: Text(
                               "Cancel",
-                              style: textStyle(color: Colors.grey),
+                              style: textStyle.copyWith(color: Colors.grey),
                             )),
                         TextButton(
                             onPressed: () async {
                               await FirebaseAuth.instance.signOut();
                               final req = await AuthServices()
                                   .logoutUser(context)
-                                  .then((value) => nextPageNoPop(context,
-                                      (context) => WelcomeOnBoardingPage()));
+                                  .then((value) => nextPageNoPop(
+                                      context,
+                                      (context) =>
+                                          const WelcomeOnBoardingPage()));
                             },
-                            child: Text(
+                            child: const Text(
                               "Proceed",
                             )),
                       ],
                     );
                   });
             },
-            child: Text(
+            child: const Text(
               "Logout",
             ),
           ),
@@ -84,7 +85,7 @@ class _ProfileState extends State<Profile> {
             }
             if (snapshot.hasError) {
               print("${snapshot.error}");
-              return ErrorPageWidget();
+              return const ErrorPageWidget();
             }
 
             final data = snapshot.data;
@@ -95,23 +96,23 @@ class _ProfileState extends State<Profile> {
             print("-===-");
             final user = data.data();
 
-            return UserEdit(data: user,uid:widget.uid);
+            return UserEdit(data: user, uid: widget.uid);
           }),
     );
   }
 
-  bool _loading = false;
+  final bool _loading = false;
 }
 
 class UserEdit extends StatefulWidget {
-  const UserEdit({super.key, this.data,this.uid});
-  final data,uid;
+  const UserEdit({super.key, this.data, this.uid});
+  final data, uid;
   @override
   State<UserEdit> createState() => _UserEditState();
 }
 
 class _UserEditState extends State<UserEdit> {
-  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -133,9 +134,9 @@ class _UserEditState extends State<UserEdit> {
         const SizedBox(
           height: 10.0,
         ),
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Icon(
               Icons.account_circle_rounded,
               size: 120.0,

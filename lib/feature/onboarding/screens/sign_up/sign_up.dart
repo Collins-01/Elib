@@ -4,18 +4,14 @@ import 'package:elib/helpers/snakbars.dart';
 import 'package:elib/helpers/util_helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:elib/feature/dashboard/screens/dashboard.dart';
 import 'package:elib/feature/onboarding/screens/sign_in/sign_in.dart';
-import 'package:elib/feature/onboarding/screens/sign_up/sign_up.dart';
-import 'package:elib/feature/onboarding/screens/sign_with_google/login_with_google.dart';
-import 'package:elib/feature/onboarding/services/auth_services.dart';
 import 'package:elib/helpers/colors.dart';
 import 'package:elib/helpers/components/app_icon.dart';
 import 'package:elib/helpers/components/button.dart';
 import 'package:elib/helpers/components/email_input.dart';
 import 'package:elib/helpers/components/input_field.dart';
-import 'package:elib/helpers/components/password_input.dart';
 import 'package:elib/helpers/components/telephone_input.dart';
 import 'package:elib/helpers/navigators.dart';
 import 'package:elib/helpers/page_layout/page_layout.dart';
@@ -23,21 +19,23 @@ import 'package:elib/helpers/page_layout/text_formating.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUp extends StatefulWidget {
+  const SignUp({super.key});
+
   @override
   _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
-  GlobalKey<FormState> _signUpFormkey = GlobalKey<FormState>();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _userNameController = TextEditingController();
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _phoneNumeberController = TextEditingController();
-  TextEditingController _matricController = TextEditingController();
-  TextEditingController _passWordController = TextEditingController();
+  final GlobalKey<FormState> _signUpFormkey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _phoneNumeberController = TextEditingController();
+  final TextEditingController _matricController = TextEditingController();
+  final TextEditingController _passWordController = TextEditingController();
 
-  bool _showPassword = true;
+  final bool _showPassword = true;
   bool _loading = false;
 
   @override
@@ -52,9 +50,9 @@ class _SignUpState extends State<SignUp> {
                   const SizedBox(
                     height: 20.0,
                   ),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       AppIcon(
                         width: 130,
                       ),
@@ -70,7 +68,7 @@ class _SignUpState extends State<SignUp> {
                       Row(
                         children: [
                           Text("Sign Up",
-                              style: textStyle(
+                              style: textStyle.copyWith(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.w700,
                               )),
@@ -165,14 +163,13 @@ class _SignUpState extends State<SignUp> {
                                     onTap: null,
                                     // onTap: () => nextPage(context,
                                     // (context) => ResetPasswordEnterEmail()),
-                                    child: Text(
-                                      "Forgot Password?",
-                                      style: textStyle(
+                                    child: Text("Forgot Password?",
+                                        style: textStyle.copyWith(
                                           decoration: TextDecoration.underline,
                                           color: const Color(0xff114B5F),
                                           fontSize: 14.0,
-                                          fontWeight: FontWeight.w400),
-                                    ),
+                                          fontWeight: FontWeight.w400,
+                                        )),
                                   ),
                                 )
                               ],
@@ -202,16 +199,21 @@ class _SignUpState extends State<SignUp> {
                               children: [
                                 Text(
                                   "Or",
-                                  style: textStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: const Color.fromRGBO(
-                                          30, 30, 30, 0.64)),
+                                  style: textStyle.copyWith(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color.fromRGBO(
+                                      30,
+                                      30,
+                                      30,
+                                      0.64,
+                                    ),
+                                  ),
                                   textAlign: TextAlign.center,
                                 ),
                               ],
                             ),
-                          
+
                             SizedBox(
                               height: 50.0,
                               child: Stack(
@@ -222,14 +224,13 @@ class _SignUpState extends State<SignUp> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          "Already have an Account? ",
-                                          textAlign: TextAlign.center,
-                                          style: textStyle(
+                                        Text("Already have an Account? ",
+                                            textAlign: TextAlign.center,
+                                            style: textStyle.copyWith(
                                               color: textColor,
                                               fontSize: 14,
-                                              fontWeight: FontWeight.w400),
-                                        ),
+                                              fontWeight: FontWeight.w400,
+                                            )),
                                         const SizedBox(
                                           width: 2.0,
                                         ),
@@ -239,10 +240,11 @@ class _SignUpState extends State<SignUp> {
                                           child: Text(
                                             "Sign in",
                                             textAlign: TextAlign.center,
-                                            style: textStyle(
-                                                color: primaryColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w700),
+                                            style: textStyle.copyWith(
+                                              color: primaryColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w700,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -262,13 +264,12 @@ class _SignUpState extends State<SignUp> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        "By Signing in or creating an account, you agree with",
-                                        textAlign: TextAlign.center,
-                                        style: textStyle(
-                                            color: textColor,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400),
-                                      ),
+                                          "By Signing in or creating an account, you agree with",
+                                          textAlign: TextAlign.center,
+                                          style: textStyle.copyWith(
+                                              color: textColor,
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400)),
                                     ],
                                   ),
                                   Container(
@@ -280,7 +281,7 @@ class _SignUpState extends State<SignUp> {
                                         Text(
                                           "our",
                                           textAlign: TextAlign.center,
-                                          style: textStyle(
+                                          style: textStyle.copyWith(
                                               color: textColor,
                                               fontSize: 13,
                                               fontWeight: FontWeight.w400),
@@ -288,36 +289,32 @@ class _SignUpState extends State<SignUp> {
                                         const SizedBox(
                                           width: 2.0,
                                         ),
-                                        Text(
-                                          "Terms & Conditions",
-                                          textAlign: TextAlign.center,
-                                          style: textStyle(
-                                              color: primaryColor,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w700),
-                                        ),
+                                        Text("Terms & Conditions",
+                                            textAlign: TextAlign.center,
+                                            style: textStyle.copyWith(
+                                                color: primaryColor,
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w700)),
                                         const SizedBox(
                                           width: 2.0,
                                         ),
-                                        Text(
-                                          "and",
-                                          textAlign: TextAlign.center,
-                                          style: textStyle(
+                                        Text("and",
+                                            textAlign: TextAlign.center,
+                                            style: textStyle.copyWith(
                                               color: textColor,
                                               fontSize: 13,
-                                              fontWeight: FontWeight.w400),
-                                        ),
+                                              fontWeight: FontWeight.w400,
+                                            )),
                                         const SizedBox(
                                           width: 2.0,
                                         ),
-                                        Text(
-                                          "Privacy Statement",
-                                          textAlign: TextAlign.center,
-                                          style: textStyle(
+                                        Text("Privacy Statement",
+                                            textAlign: TextAlign.center,
+                                            style: textStyle.copyWith(
                                               color: primaryColor,
                                               fontSize: 13,
-                                              fontWeight: FontWeight.w700),
-                                        ),
+                                              fontWeight: FontWeight.w700,
+                                            )),
                                       ],
                                     ),
                                   )
@@ -341,8 +338,8 @@ class _SignUpState extends State<SignUp> {
 
   signUpAction(context, data) async {
     // nextPage(context, (context) => Dashboard());
-    final _pref = await SharedPreferences.getInstance();
-    final token = _pref.getString("token");
+    final pref = await SharedPreferences.getInstance();
+    final token = pref.getString("token");
     setState(() {
       _loading = true;
     });
@@ -356,21 +353,21 @@ class _SignUpState extends State<SignUp> {
         _loading = false;
       });
       print(credential.user!.uid);
-      _pref.setString("token", credential.user!.uid);
-      _pref.setString("email", credential.user!.email!);
+      pref.setString("token", credential.user!.uid);
+      pref.setString("email", credential.user!.email!);
 
       // defaultSnackyBar(context, "login successfull", successColor);
       // nextPageNoPop(context, (context) => Dashboard());
       final data = {
         "name": _userNameController.text.trim().toLowerCase(),
-        "firstName":_firstNameController.text.trim().toLowerCase(),
-        "lastName":_lastNameController.text.trim().toLowerCase(),
-        "matricNumber":_matricController.text.trim().toLowerCase(),
+        "firstName": _firstNameController.text.trim().toLowerCase(),
+        "lastName": _lastNameController.text.trim().toLowerCase(),
+        "matricNumber": _matricController.text.trim().toLowerCase(),
         "email": _emailController.text.trim(),
         "phoneNumber": _phoneNumeberController.text.trim(),
         "userId": credential.user!.uid
       };
-      addUser(context, data,credential.user!.uid);
+      addUser(context, data, credential.user!.uid);
     } on FirebaseAuthException catch (e) {
       setState(() {
         _loading = false;
@@ -390,19 +387,19 @@ class _SignUpState extends State<SignUp> {
         _loading = false;
       });
     } // setState(() {
-
   }
 
-  addUser(context, userData,uid) async {
-    final req =
-        await firestore.collection("users").doc(uid).set(userData).whenComplete(() {
+  addUser(context, userData, uid) async {
+    final req = await firestore
+        .collection("users")
+        .doc(uid)
+        .set(userData)
+        .whenComplete(() {
       defaultSnackyBar(context, "Sign up successfull.", successColor);
-       Timer(
-        Duration(seconds: 3),
-        () => {
-          nextPageNoPop(context, (context) => Dashboard()),
-        });
-      
+      Timer(
+        const Duration(seconds: 3),
+        () => nextPageNoPop(context, (context) => const Dashboard()),
+      );
     }).catchError((err) {
       setState(() {
         _loading = false;

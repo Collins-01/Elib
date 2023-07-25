@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:elib/helpers/colors.dart';
-import 'package:elib/helpers/navigators.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
-import 'package:elib/welcome.dart';
+import 'package:flutter/material.dart';
+import 'package:elib/helpers/colors.dart';
 
 const spinner = CircularProgressIndicator(
   color: Colors.white,
@@ -20,8 +17,8 @@ loadingDialog(context) {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return Center(
-          child: Container(
+        return const Center(
+          child: SizedBox(
             width: 40.0,
             height: 40.0,
             child: spinner,
@@ -35,11 +32,11 @@ class Pageloader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return const SizedBox(
       height: 150.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           CircularProgressIndicator(
             color: primaryColor,
             strokeWidth: 2.0,
@@ -56,11 +53,11 @@ futureLoadingModal(context) {
       isDismissible: false,
       isScrollControlled: true,
       enableDrag: false,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (BuildContext context) {
-        return Container(
+        return SizedBox(
           height: 150,
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -68,24 +65,24 @@ futureLoadingModal(context) {
             children: [
               Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10.0,
                   ),
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 5.0,
                       ),
                       IconButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        icon: Icon(Icons.close, size: 14.0),
+                        icon: const Icon(Icons.close, size: 14.0),
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 27.0),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 27.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -95,7 +92,7 @@ futureLoadingModal(context) {
                         ),
                         Text(
                           "Loading..., Please wait",
-                          style: textStyle(color: textColor, fontSize: 14.0),
+                          style: textStyle,
                         )
                       ],
                     ),
