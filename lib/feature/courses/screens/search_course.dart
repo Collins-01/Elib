@@ -24,7 +24,7 @@ class _SearchCourseState extends State<SearchCourse> {
     return PageLayout(
       navPop: false,
       title: "Courses",
-      appBarColor: primaryColor,
+      appBarColor: bluePrimaryColor,
       fontSize: 30.0,
       appBarElevation: 2.0,
       appBarActions: [
@@ -93,8 +93,10 @@ class _SearchCourseState extends State<SearchCourse> {
                     title: "Level",
                     items: const [
                       'Pick a level',
-                      'hnd1',
-                      'hnd2',
+                      '100 ',
+                      '200',
+                      '300',
+                      '400',
                     ],
                     initValue: 'Pick a level',
                     onChange: (val) {
@@ -110,9 +112,10 @@ class _SearchCourseState extends State<SearchCourse> {
                     title: "Level",
                     items: const [
                       'Pick a level',
-                      'hnd1',
-                      'hnd2',
-                      'hnd3',
+                      '100 ',
+                      '200',
+                      '300',
+                      '400',
                     ],
                     initValue: 'Pick a level',
                     onChange: (val) {

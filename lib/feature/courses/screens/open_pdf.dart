@@ -53,7 +53,7 @@ class _OpenPdfState extends State<OpenPdf> {
 
   Future<File> createFileOfPdfUrl() async {
     Completer<File> completer = Completer();
-    pageToast("Start downloading file from internet!", primaryColor);
+    pageToast("Start downloading file from internet!", bluePrimaryColor);
     try {
       // "https://berlin2017.droidcon.cod.newthinking.net/sites/global.droidcon.cod.newthinking.net/files/media/documents/Flutter%20-%2060FPS%20UI%20of%20the%20future%20%20-%20DroidconDE%2017.pdf";
       // final url = "https://pdfkit.org/docs/guide.pdf";
@@ -71,7 +71,7 @@ class _OpenPdfState extends State<OpenPdf> {
 
       await file.writeAsBytes(bytes, flush: true);
       completer.complete(file);
-      pageToast("Download files", primaryColor);
+      pageToast("Download files", bluePrimaryColor);
       setState(() {
         notReadyToOpen = false;
       });
@@ -109,7 +109,7 @@ class _OpenPdfState extends State<OpenPdf> {
       appBarActions: const [TextButton(onPressed: null, child: Text(""))],
       // appBar: AppBar(
       //   title: Text('${widget.title}'),
-      //   backgroundColor: primaryColor,
+      //   backgroundColor: bluePrimaryColor,
       // ),
       // body: Center(child: Builder(
       child: Center(child: Builder(
@@ -147,8 +147,8 @@ class _OpenPdfState extends State<OpenPdf> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: AppButton(
-                  borderColor: notReadyToOpen ? Colors.grey : primaryColor,
-                  color: notReadyToOpen ? Colors.grey : primaryColor,
+                  borderColor: notReadyToOpen ? Colors.grey : bluePrimaryColor,
+                  color: notReadyToOpen ? Colors.grey : bluePrimaryColor,
                   loading: notReadyToOpen,
                   title: "Open PDF",
                   onPress: notReadyToOpen
@@ -210,7 +210,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Document"),
-        backgroundColor: primaryColor,
+        backgroundColor: bluePrimaryColor,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -286,8 +286,8 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
         builder: (context, AsyncSnapshot<PDFViewController> snapshot) {
           if (snapshot.hasData) {
             return FloatingActionButton.extended(
-              foregroundColor: primaryColor,
-              backgroundColor: primaryColor,
+              foregroundColor: bluePrimaryColor,
+              backgroundColor: bluePrimaryColor,
               label: Text(
                 "Go to ${pages! ~/ 2}",
                 style: textStyle.copyWith(color: Colors.white),

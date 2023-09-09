@@ -54,28 +54,28 @@ class _DashboardState extends State<Dashboard> {
                 icon: Image.asset(
                   listOfIcons[0],
                   height: 21.77,
-                  // color: _currentIndex == 1 ? primaryColor : fadeGrey,
+                  // color: _currentIndex == 1 ? bluePrimaryColor : fadeGrey,
                 ),
                 label: 'Home'),
             BottomNavigationBarItem(
                 icon: Image.asset(
                   listOfIcons[1],
                   height: 21.77,
-                  // color: _currentIndex == 1 ? primaryColor : fadeGrey,
+                  // color: _currentIndex == 1 ? bluePrimaryColor : fadeGrey,
                 ),
                 label: 'Courses'),
             BottomNavigationBarItem(
                 icon: Image.asset(
                   listOfIcons[2],
                   height: 21.77,
-                  // color: _currentIndex == 1 ? primaryColor : fadeGrey,
+                  // color: _currentIndex == 1 ? bluePrimaryColor : fadeGrey,
                 ),
                 label: 'Notice'),
             BottomNavigationBarItem(
                 icon: Image.asset(
                   listOfIcons[3],
                   height: 21.77,
-                  // color: _currentIndex == 1 ? primaryColor : fadeGrey,
+                  // color: _currentIndex == 1 ? bluePrimaryColor : fadeGrey,
                 ),
                 label: 'Settings'),
           ],

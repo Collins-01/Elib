@@ -6,7 +6,7 @@ import 'package:elib/helpers/components/button.dart';
 import 'package:elib/helpers/navigators.dart';
 import 'package:elib/helpers/page_layout/page_layout.dart';
 import 'package:elib/helpers/page_layout/text_formating.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class OnboardingPageScreeen extends StatefulWidget {
   const OnboardingPageScreeen({super.key});
@@ -37,14 +37,14 @@ class _OnboardingPageScreeenState extends State<OnboardingPageScreeen> {
             children: [
               Expanded(
                 child: Text(
-                  "Helping Computer science\n students study on the go.",
+                  "Learning Made Easy",
                   maxLines: 3,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: textStyle.copyWith(
-                    fontSize: 20.0,
+                    fontSize: 28.0,
                     fontWeight: FontWeight.w700,
-                    color: secondaryColor,
+                    color: bluePrimaryColor,
                   ),
                 ),
               )
@@ -54,16 +54,43 @@ class _OnboardingPageScreeenState extends State<OnboardingPageScreeen> {
             height: 100.0,
           ),
           AppButton(
-              onPress: () => nextPage(context, (context) => SignIn()),
-              title: "login"),
+            onPress: () => nextPage(context, (context) => const SignUp()),
+            // borderColor: bluePrimaryColor,
+            color: bluePrimaryColor,
+            borderColor: Colors.transparent,
+            title: "Sign Up",
+          ),
           const SizedBox(
             height: 20.0,
           ),
-          AppButton(
-              onPress: () => nextPage(context, (context) => const SignUp()),
-              borderColor: secondaryColor,
-              color: secondaryColor,
-              title: "Register"),
+          // AppButton(
+          //   onPress: () => nextPage(context, (context) => const SignIn()),
+          //   title: "login",
+          // ),
+          SizedBox(
+            height: 48,
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                  side: BorderSide(
+                    color: bluePrimaryColor,
+                    width: 1.5,
+                  ),
+                ),
+              ),
+              onPressed: () => nextPage(context, (context) => const SignIn()),
+              child: Text("Login",
+                  style: textStyle.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: Colors.black,
+                  )),
+            ),
+          ),
           const SizedBox(
             height: 50.0,
           ),

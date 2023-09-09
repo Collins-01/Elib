@@ -27,7 +27,7 @@ class TransactionServices {
       print("the api respones");
       print(response);
       final res = response.data['message'];
-      defaultSnackyBar(context, "$res", primaryColor);
+      defaultSnackyBar(context, "$res", bluePrimaryColor);
 
       return response;
     } on DioError catch (e) {
@@ -52,7 +52,7 @@ class TransactionServices {
       print("the api respones");
       print(response);
       final res = response.data['message'];
-      defaultSnackyBar(context, "$res", primaryColor);
+      defaultSnackyBar(context, "$res", bluePrimaryColor);
 
       return response;
     } on DioError catch (e) {
@@ -76,7 +76,7 @@ class TransactionServices {
       print("the api respones");
       print(response);
       // final res = response.data['message'];
-      // defaultSnackyBar(context, "$res", primaryColor);
+      // defaultSnackyBar(context, "$res", bluePrimaryColor);
 
       return response.data;
     } on DioError catch (e) {

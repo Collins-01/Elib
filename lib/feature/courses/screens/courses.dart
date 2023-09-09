@@ -22,7 +22,7 @@ class _CourseListState extends State<CourseList> {
     return PageLayout(
         // navPop: false,
         title: "Courses",
-        appBarColor: primaryColor,
+        appBarColor: bluePrimaryColor,
         fontSize: 30.0,
         appBarElevation: 2.0,
         child: Column(

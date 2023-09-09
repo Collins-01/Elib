@@ -50,7 +50,7 @@
 //                     padding: const EdgeInsets.only(top: 30.0),
 //                     child: Text("${widget.pageTitle}",
 //                         style: headingText.copyWith(
-//                             color: primaryColor, fontSize: 20.sp)),
+//                             color: bluePrimaryColor, fontSize: 20.sp)),
 //                   )
 //                 ],
 //               ),
@@ -70,7 +70,7 @@
 //                                 Flexible(
 //                                   child: Text("${widget.bodyTitle}",
 //                                       style: headingText.copyWith(
-//                                           color: primaryColor,
+//                                           color: bluePrimaryColor,
 //                                           fontSize: 20.sp)),
 //                                 )
 //                               ],

@@ -19,7 +19,7 @@ class _HomeState extends State<Home> {
         navPop: false,
         title: "Home",
         fontSize: 25,
-        appBarColor: primaryColor,
+        appBarColor: bluePrimaryColor,
         titleTextColor: Colors.white,
         appBarElevation: 2.0,
         child: SingleChildScrollView(

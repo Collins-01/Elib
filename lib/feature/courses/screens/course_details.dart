@@ -269,7 +269,7 @@ class _CourseDetailsState extends State<CourseDetails> {
     // });
     // bool downloaded = await saveVideo(downloadUrl, fileName);
     // if (downloaded) {
-    //   defaultSnackyBar(context, "File Downloaded", primaryColor);
+    //   defaultSnackyBar(context, "File Downloaded", bluePrimaryColor);
     // } else {
     //   defaultSnackyBar(context, "Problem Downloading File", dangerColor);
     // }

@@ -24,7 +24,7 @@ class _BlogState extends State<Blog> {
       title: 'Notice',
       navPop: false,
       fontSize: 30,
-      appBarColor: primaryColor,
+      appBarColor: bluePrimaryColor,
       titleTextColor: Colors.white,
 
       appBarElevation: 2.0,

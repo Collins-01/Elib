@@ -8,7 +8,7 @@ const spinner = CircularProgressIndicator(
 );
 
 const spinnerPry = CircularProgressIndicator(
-  color: primaryColor,
+  color: bluePrimaryColor,
   strokeWidth: 2.0,
 );
 
@@ -38,7 +38,7 @@ class Pageloader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircularProgressIndicator(
-            color: primaryColor,
+            color: bluePrimaryColor,
             strokeWidth: 2.0,
           ),
         ],

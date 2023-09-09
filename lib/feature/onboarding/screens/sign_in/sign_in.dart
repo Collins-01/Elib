@@ -63,7 +63,7 @@ class _SignInState extends State<SignIn> {
                     children: [
                       Row(
                         children: [
-                          Text("Sign In",
+                          Text("Login",
                               style: textStyle.copyWith(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.w700,
@@ -81,7 +81,8 @@ class _SignInState extends State<SignIn> {
                             InputField(
                               title: "Enter your matric number",
                               controller: _matricNumberController,
-                              hintText: "E.g F/ND/20/3210001",
+                              // hintText: "E.g F/ND/20/3210001",
+                              hintText: "PSC1808001",
                             ),
                             const SizedBox(
                               height: 24.0,
@@ -90,7 +91,7 @@ class _SignInState extends State<SignIn> {
                                 title: "Enter Lastname",
                                 passwordInput: _showPassword,
                                 controller: _passWordController,
-                                hintText: "doe",
+                                hintText: "Blessing",
                                 suffix: InkWell(
                                   onTap: () {
                                     setState(() {
@@ -121,7 +122,7 @@ class _SignInState extends State<SignIn> {
                                     child: Text("Forgot Password?",
                                         style: textStyle.copyWith(
                                           decoration: TextDecoration.underline,
-                                          color: const Color(0xff114B5F),
+                                          color: bluePrimaryColor,
                                           fontSize: 14.0,
                                           fontWeight: FontWeight.w400,
                                         )),
@@ -133,6 +134,7 @@ class _SignInState extends State<SignIn> {
                               height: 68.0,
                             ),
                             AppButton(
+                              color: bluePrimaryColor,
                               loading: _loading,
                               onPress: () {
                                 if (_signInFormkey.currentState!.validate()) {
@@ -192,7 +194,7 @@ class _SignInState extends State<SignIn> {
                                           child: Text("Sign up",
                                               textAlign: TextAlign.center,
                                               style: textStyle.copyWith(
-                                                color: primaryColor,
+                                                color: bluePrimaryColor,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w700,
                                               )),

@@ -235,13 +235,13 @@ class _SignUpState extends State<SignUp> {
                                           width: 2.0,
                                         ),
                                         InkWell(
-                                          onTap: () => nextPage(
-                                              context, (context) => SignIn()),
+                                          onTap: () => nextPage(context,
+                                              (context) => const SignIn()),
                                           child: Text(
                                             "Sign in",
                                             textAlign: TextAlign.center,
                                             style: textStyle.copyWith(
-                                              color: primaryColor,
+                                              color: bluePrimaryColor,
                                               fontSize: 14,
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -292,7 +292,7 @@ class _SignUpState extends State<SignUp> {
                                         Text("Terms & Conditions",
                                             textAlign: TextAlign.center,
                                             style: textStyle.copyWith(
-                                                color: primaryColor,
+                                                color: bluePrimaryColor,
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w700)),
                                         const SizedBox(
@@ -311,7 +311,7 @@ class _SignUpState extends State<SignUp> {
                                         Text("Privacy Statement",
                                             textAlign: TextAlign.center,
                                             style: textStyle.copyWith(
-                                              color: primaryColor,
+                                              color: bluePrimaryColor,
                                               fontSize: 13,
                                               fontWeight: FontWeight.w700,
                                             )),

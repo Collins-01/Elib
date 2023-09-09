@@ -15,7 +15,7 @@ class PageLayout extends StatefulWidget {
       this.fontSize = 20,
       this.backOnPressed,
       this.appBarActions,
-      this.appBarColor = primaryColor,
+      this.appBarColor = bluePrimaryColor,
       this.scaffoldColor = Colors.white,
       this.scaffoldPadding = 26.0,
       this.bottomNavEnabled = false,

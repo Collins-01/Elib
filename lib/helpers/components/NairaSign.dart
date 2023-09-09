@@ -5,7 +5,7 @@ import 'package:elib/helpers/colors.dart';
 class NairaSign extends StatelessWidget {
   final double? height;
   final Color? color;
-  NairaSign({this.height = 22.0, this.color = primaryColor});
+  NairaSign({this.height = 22.0, this.color = bluePrimaryColor});
   @override
   Widget build(BuildContext context) {
     return SvgPicture.asset(

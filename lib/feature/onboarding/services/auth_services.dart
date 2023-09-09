@@ -34,8 +34,8 @@ class AuthServices {
         print('Response body decoded: ${decoded['status']}');
 
         final msg = decoded['message'];
-        defaultSnackyBar(context, msg, primaryColor);
-        nextPage(context, (context) => SignIn());
+        defaultSnackyBar(context, msg, bluePrimaryColor);
+        nextPage(context, (context) => const SignIn());
       } else {
         final decoded = jsonDecode(response.body);
         final msg = decoded['message'];
@@ -55,7 +55,7 @@ class AuthServices {
   }
 
   Future signIn(data, context) async {
-    final _pref = await SharedPreferences.getInstance();
+    final pref = await SharedPreferences.getInstance();
     try {
       var url = Uri.parse('$baseUrl/auth/login');
       var response = await http.post(url, body: data);
@@ -69,10 +69,10 @@ class AuthServices {
         print('Response body decoded: ${decoded['status']}');
 
         final msg = decoded['message'];
-        defaultSnackyBar(context, msg, primaryColor);
-        _pref.setString("token", "${decoded['data']['token']}");
+        defaultSnackyBar(context, msg, bluePrimaryColor);
+        pref.setString("token", "${decoded['data']['token']}");
 
-        nextPage(context, (context) => Dashboard());
+        nextPage(context, (context) => const Dashboard());
       } else {
         final decoded = jsonDecode(response.body);
         final msg = decoded['message'];
@@ -98,7 +98,7 @@ class AuthServices {
       var url = Uri.parse('$baseUrl/user/verify-email-token');
       var response = await http.get(url);
 
-      print('Response status: ${response}');
+      print('Response status: $response');
       // print('Response body: ${response.body}');
 
       return response;
@@ -123,8 +123,8 @@ class AuthServices {
   }
 
   Future logoutUser(context) async {
-    final _pref = await SharedPreferences.getInstance();
-    await _pref.remove('token');
-    await _pref.clear();
+    final pref = await SharedPreferences.getInstance();
+    await pref.remove('token');
+    await pref.clear();
   }
 }

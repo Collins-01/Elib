@@ -25,7 +25,7 @@ class _NoticeDetailsState extends State<NoticeDetails> {
   Widget build(BuildContext context) {
     return PageLayout(
       title: "",
-      appBarColor: primaryColor1,
+      appBarColor: bluePrimaryColor,
       leadingNavIconColor: Colors.white,
       appBarElevation: 0.9,
       scaffoldPadding: 0,
@@ -355,7 +355,7 @@ class _PostCommentState extends State<PostComment> {
         _loading = false;
       });
       Navigator.pop(context);
-      defaultSnackyBar(context, "Comment Posted", primaryColor);
+      defaultSnackyBar(context, "Comment Posted", bluePrimaryColor);
       setState(() {});
     }).catchError((err) {
       setState(() {

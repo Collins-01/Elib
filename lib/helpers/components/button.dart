@@ -20,8 +20,8 @@ class AppButton extends StatefulWidget {
       this.loading = false,
       this.width = 100.0,
       this.height = 48.0,
-      this.color = primaryColor1,
-      this.borderColor = primaryColor1,
+      this.color = bluePrimaryColor,
+      this.borderColor = bluePrimaryColor,
       this.allCaps = true,
       this.transparent = false,
       this.buttonTextColor = Colors.white});
@@ -41,18 +41,18 @@ class _AppButtonState extends State<AppButton> {
         InkWell(
           onTap: widget.loading ? null : widget.onPress,
           child: Container(
-            width: widget.width ?? width * 0.8,
+            width: width * 0.8,
             height: widget.height,
             decoration: BoxDecoration(
-                color: widget.color,
+              color: widget.color,
 
-                // color: widget.loading ? Colors.grey : widget.color,
-                border: Border.all(
-                    width: 1.5,
-                    color: widget.loading
-                        ? Colors.transparent
-                        : widget.borderColor),
-                borderRadius: BorderRadius.circular(2)),
+              // color: widget.loading ? Colors.grey : widget.color,
+              border: Border.all(
+                  width: 1.5,
+                  color:
+                      widget.loading ? Colors.transparent : widget.borderColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
             child: TextButton(
               onPressed: null,
               child: widget.loading

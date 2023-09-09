@@ -25,7 +25,7 @@ class TabBarDemo extends StatelessWidget {
         title: 'Settings',
         navPop: false,
         fontSize: 30,
-        appBarColor: primaryColor,
+        appBarColor: bluePrimaryColor,
         titleTextColor: Colors.white,
         appBarElevation: 2.0,
         child: Column(
