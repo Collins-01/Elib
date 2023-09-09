@@ -109,7 +109,7 @@ class _SignUpState extends State<SignUp> {
                             InputField(
                               title: "Matric number",
                               controller: _matricController,
-                              hintText: "F/HD/20/3210005",
+                              hintText: "PSC1808001",
                             ),
                             const SizedBox(
                               height: 24.0,
@@ -166,7 +166,7 @@ class _SignUpState extends State<SignUp> {
                                     child: Text("Forgot Password?",
                                         style: textStyle.copyWith(
                                           decoration: TextDecoration.underline,
-                                          color: const Color(0xff114B5F),
+                                          color: bluePrimaryColor,
                                           fontSize: 14.0,
                                           fontWeight: FontWeight.w400,
                                         )),
