@@ -20,10 +20,9 @@ class _ScreenLoaderState extends ConsumerState<ScreenLoader> {
     super.initState();
 
     Timer(
-        Duration(seconds: 2),
-        () => {
-              nextPageNoPop(context, (context) => Dashboard()),
-            });
+      const Duration(seconds: 2),
+      () => nextPageNoPop(context, (context) => const Dashboard()),
+    );
   }
 
   @override
@@ -56,25 +55,27 @@ class ScreensLoaderChild extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageLayout(
+    return const PageLayout(
         noAppBar: true,
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          const Expanded(child: Text("")),
+          Expanded(child: Text("")),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [AppIcon()],
+            children: [AppIcon()],
           ),
-          const SizedBox(
+          SizedBox(
             height: 10.0,
           ),
           Center(child: SizedBox(width: 100.0, child: LinearLineLoader())),
-          const Expanded(child: Text("")),
+          Expanded(child: Text("")),
         ]));
   }
 }
 
 class LinearLineLoader extends StatefulWidget {
+  const LinearLineLoader({super.key});
+
   @override
   State<LinearLineLoader> createState() => _LinearLineLoaderState();
 }

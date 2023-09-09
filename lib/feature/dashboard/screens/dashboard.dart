@@ -39,6 +39,9 @@ class _DashboardState extends State<Dashboard> {
           backgroundColor: const Color(0xFFF8F8F8),
           currentIndex: _currentIndex,
           elevation: 5,
+          selectedIconTheme: const IconThemeData(
+            color: bluePrimaryColor,
+          ),
           onTap: (value) {
             setState(() {
               _currentIndex = value;
@@ -49,34 +52,43 @@ class _DashboardState extends State<Dashboard> {
           unselectedLabelStyle: textStyle.copyWith(fontSize: 10.0),
           selectedLabelStyle: textStyle.copyWith(fontSize: 10.0),
           showUnselectedLabels: true,
-          items: [
+          items: const [
             BottomNavigationBarItem(
-                icon: Image.asset(
-                  listOfIcons[0],
-                  height: 21.77,
-                  // color: _currentIndex == 1 ? bluePrimaryColor : fadeGrey,
+                icon: Icon(
+                  Icons.home,
                 ),
+                // icon: Image.asset(
+                //   listOfIcons[0],
+                //   height: 21.77,
+                //   // color: _currentIndex == 1 ? bluePrimaryColor : fadeGrey,
+                // ),
                 label: 'Home'),
             BottomNavigationBarItem(
-                icon: Image.asset(
-                  listOfIcons[1],
-                  height: 21.77,
-                  // color: _currentIndex == 1 ? bluePrimaryColor : fadeGrey,
-                ),
-                label: 'Courses'),
+              icon: Icon(Icons.menu_book),
+              // icon: Image.asset(
+              //   listOfIcons[1],
+              //   height: 21.77,
+              //   // color: _currentIndex == 1 ? bluePrimaryColor : fadeGrey,
+              // ),
+              label: 'Courses',
+            ),
             BottomNavigationBarItem(
-                icon: Image.asset(
-                  listOfIcons[2],
-                  height: 21.77,
-                  // color: _currentIndex == 1 ? bluePrimaryColor : fadeGrey,
-                ),
+                icon: Icon(Icons.calendar_today_outlined),
+                // Image.asset(
+                //   listOfIcons[2],
+                //   height: 21.77,
+                //   // color: _currentIndex == 1 ? bluePrimaryColor : fadeGrey,
+                // ),
                 label: 'Notice'),
             BottomNavigationBarItem(
-                icon: Image.asset(
-                  listOfIcons[3],
-                  height: 21.77,
-                  // color: _currentIndex == 1 ? bluePrimaryColor : fadeGrey,
+                icon: Icon(
+                  Icons.settings,
                 ),
+                //  Image.asset(
+                //   listOfIcons[3],
+                //   height: 21.77,
+                //   // color: _currentIndex == 1 ? bluePrimaryColor : fadeGrey,
+                // ),
                 label: 'Settings'),
           ],
         ),
